@@ -1,0 +1,25 @@
+CMPUT 274 Final Project Proposal
+
+Project: 2D Side scroller game “Command-O-line”
+
+Team: Kaden Dreger and Rutvik Patel (1528632 and 1530012)
+
+Description: Create a side scrolling action adventure game in Python that takes in keyboard (and potentially mouse) input to control the main character. The game incorporates objects, save states, progressive level design that varies in difficulty, interactive title screen, and varying merchant interactions. This game will have two general outcomes, a game over screen when the main character dies and a victory screen.
+
+Milestones:
+1.    Create an operational title screen (preferably in a new window) with an option to start a “New Game” or “Load Game”
+2.    Create a brief text based introductory instruction tutorial
+3.    Create varying level designs for levels 1-5
+	a.    Multiple enemy battles with varying difficulty
+	b.    Merchant transition phase in which the player will have the option to restock on ammo or health to prepare for the next 		      enemy/level
+	c.    A “finish line” at the end of the level
+4.    Initialize character objects
+	a.    Imaging for the main character and bad characters which make use of different sprites
+	b.    Hit-boxes, health bars, ammo count etc.
+	c.    Establishing gun properties
+5.    Creating the merchant transition stage to interact with in between the levels
+6.    Introducing a save game feature (hard-coded) for the possibility to resume the level that you were at last time
+
+Extra Features: 
+1.    Introduce collectible pick up items which can be traded in to the merchant for benefits such as extra health or ammo
+2.    Introduce cheat codes such as infinite health and ammo hidden in the game which can be inputted in when you first load up the game.
