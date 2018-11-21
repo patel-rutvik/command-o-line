@@ -16,7 +16,10 @@ def game_loop(quit):
             if event.type == pygame.QUIT:
                 # We can add an "Are you sure you would like to quit" window later... 
                 quit = True
-        menuScreen()
+        gameState = menuScreen()
+        print(gameState)
+        if gameState == "quit":
+            quit = True
         pygame.display.update()
         clock.tick(60)
 
