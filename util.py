@@ -22,7 +22,7 @@ def button(text, font_type, fontsize, color, hover_color, x, y, buff, clause):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     text_width, text_height, textobject = textSize(text, font_type, fontsize)
-    state = "menu"
+    state = ""
     if (x + (0.5 * text_width) + (0.5 * buff) > mouse[0] > x - (0.5 * text_width) - (0.5 * buff)) and (y + (0.5 * text_height) > mouse[1] > y - (0.5 * text_height)):
         pygame.draw.rect(gameDisplay, hover_color, ((x) - (text_width / 2) - (buff / 2), 
                         (y) - (text_height / 2), text_width + buff, text_height))
@@ -34,4 +34,5 @@ def button(text, font_type, fontsize, color, hover_color, x, y, buff, clause):
     textSurface, textRectangle = create_textobject(text, textobject)
     textRectangle.center = (x, y)
     gameDisplay.blit(textSurface, textRectangle)
-    return state
+    if (state != ""):
+        return state

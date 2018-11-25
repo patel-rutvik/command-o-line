@@ -1,6 +1,7 @@
 import pygame
 import sys
 from menu_screen import menuScreen
+from tutorial import tutorialScreen
 # https://pythonprogramming.net/pygame-python-3-part-1-intro/
 
 # setting up pygame
@@ -16,10 +17,12 @@ def game_loop(quit):
             if event.type == pygame.QUIT:
                 # We can add an "Are you sure you would like to quit" window later... 
                 quit = True
-        gameState = menuScreen()
-        print(gameState)
+        gameState = menuScreen(None)
+        print("State of game: ", gameState)
         if gameState == "quit":
             quit = True
+        elif gameState == "tutorial":
+            quit = tutorialScreen()
         pygame.display.update()
         clock.tick(60)
 
