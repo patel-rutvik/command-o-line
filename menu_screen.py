@@ -21,8 +21,6 @@ def menuScreen(state):
     play_state = button("Play game", 'Antonio-Regular.ttf', 50, green, hovergreen, display_width / 3, (display_height) / 2, 50, "play")
     quit_state = button("Quit game", 'Antonio-Regular.ttf', 50, red, hoverred, display_width / 2, (2 * display_height) / 3, 50, "quit")
     tutorial_state = button("Tutorial", 'Antonio-Regular.ttf', 50, blue, hoverblue, (2*display_width) / 3, (display_height) / 2, 50, "tutorial")
-    pygame.display.update()
-    clock.tick(60)
     if play_state != state:
         return play_state
     elif quit_state != state:
