@@ -11,6 +11,8 @@ hoveryellow = (200, 200, 0)
 display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
+background = pygame.image.load('game_background.jpg')
+background = pygame.transform.scale(background, (2000, 1000))
 
 all_sprites = pygame.sprite.Group()
 player = characters.Player()
@@ -21,6 +23,7 @@ def playGame():
 
     while play:
         gameDisplay.fill(black)
+        gameDisplay.blit(background, (0, 0))
 
         #UPDATE
         all_sprites.update()

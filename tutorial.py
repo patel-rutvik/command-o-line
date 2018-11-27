@@ -1,5 +1,6 @@
 import pygame
 from util import displayText, button, importPic
+import characters
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -11,6 +12,10 @@ hoveryellow = (200, 200, 0)
 display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
+
+all_sprites = pygame.sprite.Group()
+player = characters.Player()
+all_sprites.add(player)
 
 background = pygame.image.load('game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
@@ -28,6 +33,8 @@ def tutorialScreen():
     while tutorial:
         gameDisplay.fill(black)
         gameDisplay.blit(background, (0, 0))
+        all_sprites.update()
+        all_sprites.draw(gameDisplay)
         displayText("Tutorial", 'Antonio-Bold.ttf', 100, display_width / 2, 100, white, 0)
         displayText("You will be controlling Pikachu.", 'Antonio-Regular.ttf', 30, display_width / 2, 200, black, 0)
         displayText("Press       on the keypad to move right. Press       on the keypad to move left.", 'Antonio-Regular.ttf',
