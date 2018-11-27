@@ -19,11 +19,11 @@ def playGame():
         gameDisplay.fill(black)
         displayText("Kaden You Are Gay", 'Antonio-Bold.ttf', 75, display_width / 2, 100, white, 0)
         for event in pygame.event.get():
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_RETURN:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
                     play = False
-                    return True
-                if event.type == pygame.QUIT:
-                    play = False
-                    return True ### Quit does not work...
+                    #return True
+            if event.type == pygame.QUIT:
+                play = False
+                return True ### Quit does not work...
         pygame.display.update()
