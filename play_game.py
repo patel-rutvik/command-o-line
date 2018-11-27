@@ -17,7 +17,7 @@ background = pygame.transform.scale(background, (2000, 1000))
 all_sprites = pygame.sprite.Group()
 player = characters.Player()
 all_sprites.add(player)
-
+keys = pygame.key.get_pressed()
 def playGame():
     play = True
 
