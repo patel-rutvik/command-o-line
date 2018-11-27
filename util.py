@@ -1,5 +1,5 @@
 import pygame
-display_width, display_height = 1500, 1000
+display_width, display_height = 2000, 1000
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 def create_textobject(text, font):
     surface = font.render(text, True, (255, 255, 255))

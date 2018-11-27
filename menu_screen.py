@@ -8,7 +8,7 @@ red = (200, 0, 0)
 blue = (0, 0, 200)
 hoverblue = (0, 0, 255)
 black = (0, 0, 0)
-display_width, display_height = 1500, 1000
+display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 
