@@ -1,35 +1,35 @@
 import pygame
+from util import displayText, button, importPic
 white = (255, 255, 255)
-green = (140, 240, 100)
-red = (255, 0, 0)
-display_width, display_height = 1500, 1000
-gameDisplay = pygame.display.set_mode((display_width, display_height))
+hovergreen = (140, 240, 100)
+green = (140, 200, 100)
+hoverred = (255, 0, 0)
+red = (200, 0, 0)
+blue = (0, 0, 200)
+hoverblue = (0, 0, 255)
+black = (0, 0, 0)
+display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
-
+gameDisplay = pygame.display.set_mode((display_width, display_height))
+background = pygame.image.load('game_background.jpg')
+background = pygame.transform.scale(background, (2000, 1000))
 # https://www.1001freefonts.com/retro-fonts-4.php 
 
-def create_textobject(text, font):
-    surface = font.render(text, True, white)
-    return surface, surface.get_rect()
 
-def displayText(text, font_type, fontsize, x, y, color, rect, buff):
-    text_width, text_height, textobject = textSize(text, font_type, fontsize)
-    if rect:
-        pygame.draw.rect(gameDisplay, color, ((x) - (text_width / 2) - (buff / 2), 
-            (y) - (text_height / 2), text_width + buff, text_height))
-    textSurface, textRectangle = create_textobject(text, textobject)
-    textRectangle.center = (x, y)
-    gameDisplay.blit(textSurface, textRectangle)
+def menuScreen(state):
+    importPic()
+    gameDisplay.fill(black)
+    gameDisplay.blit(background, (0, 0))
+    displayText("COMMAND-O-LINE", 'Antonio-Bold.ttf', 225, display_width / 2, (display_height / 5), white, 0)
+    play_state = button("Play game", 'Antonio-Regular.ttf', 55, white, green, hovergreen, display_width / 5, 940, 50, "play")
+    tutorial_state = button("Tutorial", 'Antonio-Regular.ttf', 55, white, blue, hoverblue, display_width / 2, 940, 50, "tutorial")
+    quit_state = button("Quit game", 'Antonio-Regular.ttf', 55, white, red, hoverred, (4*display_width) / 5, 940, 50, "quit")
+    if play_state != state:
+        return play_state
+    elif quit_state != state:
+        return quit_state
+    elif tutorial_state != state:
+        return tutorial_state
+    #if state != button_state:
+     #   return button_state
 
-
-def textSize(text, font_type, fontsize):
-    textobject = pygame.font.Font(font_type, fontsize)
-    textWidth, textHeight = textobject.size(text)
-    return textWidth, textHeight, textobject
-
-def menuScreen():
-    displayText("COMMAND-O-LINE", 'Antonio-Bold.ttf', 100, display_width / 2, display_height / 3, None, False, 0)
-    displayText("Play game", 'Antonio-Regular.ttf', 50, display_width / 3, (2*display_height) / 3, green, True, 50)
-    displayText("Quit game", 'Antonio-Regular.ttf', 50, (2*display_width) / 3, (2 * display_height) / 3, red, True, 50)
-    pygame.display.update()
-    clock.tick(60)

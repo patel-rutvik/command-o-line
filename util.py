@@ -1,0 +1,51 @@
+import pygame
+display_width, display_height = 2000, 1000
+gameDisplay = pygame.display.set_mode((display_width, display_height))
+
+
+def create_textobject(text, font, color):
+    surface = font.render(text, True, (color))
+    return surface, surface.get_rect()
+
+
+def displayText(text, font_type, fontsize, x, y, color, buff):
+    text_width, text_height, textobject = textSize(text, font_type, fontsize)
+    textSurface, textRectangle = create_textobject(text, textobject, color)
+    textRectangle.center = (x, y)
+    gameDisplay.blit(textSurface, textRectangle)
+
+
+def textSize(text, font_type, fontsize):
+    textobject = pygame.font.Font(font_type, fontsize)
+    textWidth, textHeight = textobject.size(text)
+    return textWidth, textHeight, textobject
+
+
+def button(text, font_type, fontsize, fontcolor, color, hover_color, x, y, buff, clause):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    text_width, text_height, textobject = textSize(text, font_type, fontsize)
+    state = ""
+    if (x + (0.5 * text_width) + (0.5 * buff) > mouse[0] > x - (0.5 * text_width) - (0.5 * buff)) and (y + (0.5 * text_height) > mouse[1] > y - (0.5 * text_height)):
+        pygame.draw.rect(gameDisplay, hover_color, ((x) - (text_width / 2) - (buff / 2), 
+                        (y) - (text_height / 2), text_width + buff, text_height))
+        if click[0] == 1:
+            state = clause
+    else:
+        pygame.draw.rect(gameDisplay, color, ((x) - (text_width / 2) - (buff / 2), 
+                        (y) - (text_height / 2), text_width + buff, text_height))
+    textSurface, textRectangle = create_textobject(text, textobject, fontcolor)
+    textRectangle.center = (x, y)
+    gameDisplay.blit(textSurface, textRectangle)
+    if (state != ""):
+        return state
+
+def importPic():
+    background = pygame.image.load('game_background.jpg')
+    background = pygame.transform.scale(background, (2000, 1000))
+    left_key = pygame.image.load('left_key.png')
+    left_key = pygame.transform.scale(left_key, (100, 100))
+    right_key = pygame.image.load('right_key.png')
+    right_key = pygame.transform.scale(right_key, (100, 100))
+    up_key = pygame.image.load('up_key.png')
+    up_key = pygame.transform.scale(up_key, (100, 100))
