@@ -1,5 +1,6 @@
 import pygame
 from util import displayText, button
+import characters
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -11,18 +12,29 @@ display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 
+all_sprites = pygame.sprite.Group()
+player = characters.Player()
+all_sprites.add(player)
 
 def playGame():
     play = True
 
     while play:
         gameDisplay.fill(black)
-        displayText("Kaden You Are Gay", 'Antonio-Bold.ttf', 75, display_width / 2, 100, white, 0)
+
+        #UPDATE
+        all_sprites.update()
+
+
+        #DRAW
+        all_sprites.draw(gameDisplay)
+
+
+        #END PLAY
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+            if event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_RETURN:
                     play = False
-                    #return True
             if event.type == pygame.QUIT:
                 play = False
                 return True ### Quit does not work...
