@@ -8,16 +8,18 @@ green = (100, 200, 100)
 red = (200, 0, 0)
 yellow = (180, 180, 0)
 hoveryellow = (200, 200, 0)
-display_width, display_height = 2000, 1000
+display_width, display_height = 1000, 500
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 background = pygame.image.load('game_background.jpg')
-background = pygame.transform.scale(background, (2000, 1000))
+background = pygame.transform.scale(background, (1000, 500))
 
 all_sprites = pygame.sprite.Group()
 player = characters.Player()
 all_sprites.add(player)
 keys = pygame.key.get_pressed()
+
+
 def playGame():
     play = True
 
@@ -26,8 +28,7 @@ def playGame():
         gameDisplay.blit(background, (0, 0))
 
         #UPDATE
-        all_sprites.update()
-
+        player.update()
 
         #DRAW
         all_sprites.draw(gameDisplay)
@@ -35,10 +36,10 @@ def playGame():
 
         #END PLAY
         for event in pygame.event.get():
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_RETURN:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
                     play = False
             if event.type == pygame.QUIT:
-                play = False
+                #play = False
                 return True ### Quit does not work...
         pygame.display.update()
