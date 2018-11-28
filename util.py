@@ -40,6 +40,8 @@ def button(text, font_type, fontsize, fontcolor, color, hover_color, x, y, buff,
     if (state != ""):
         return state
 
+
+
 def importPic():
     background = pygame.image.load('game_background.jpg')
     background = pygame.transform.scale(background, (2000, 1000))

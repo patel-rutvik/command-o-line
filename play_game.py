@@ -26,11 +26,11 @@ def playGame():
     play = True
 
     while play:
-        gameDisplay.fill(black)
         gameDisplay.blit(background, (0, 0))
 
         #UPDATE
         player.update()
+        goomba.update()
 
         #DRAW
         all_sprites.draw(gameDisplay)

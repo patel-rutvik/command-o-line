@@ -9,7 +9,7 @@ red = (200, 0, 0)
 hoverred = (220, 0, 0)
 yellow = (180, 180, 0)
 hoveryellow = (200, 200, 0)
-display_width, display_height = 1000, 500
+display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 
@@ -18,7 +18,7 @@ player = characters.Player()
 all_sprites.add(player)
 
 background = pygame.image.load('game_background.jpg')
-background = pygame.transform.scale(background, (1000, 500))
+background = pygame.transform.scale(background, (2000, 1000))
 left_key = pygame.image.load('left_key.png')
 left_key = pygame.transform.scale(left_key, (100, 100))
 right_key = pygame.image.load('right_key.png')
@@ -31,7 +31,6 @@ def tutorialScreen():
     tutorial = True
     importPic()
     while tutorial:
-        gameDisplay.fill(black)
         gameDisplay.blit(background, (0, 0))
 
         displayText("Tutorial", 'Antonio-Bold.ttf', 100, display_width / 2, 100, white, 0)
