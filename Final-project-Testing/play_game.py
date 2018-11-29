@@ -11,9 +11,8 @@ hoveryellow = (200, 200, 0)
 display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
-background = pygame.image.load('light_background.png')
+background = pygame.image.load('game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
-
 
 all_sprites = pygame.sprite.Group()
 player = characters.Player()
@@ -28,13 +27,9 @@ def playGame():
 
     while play:
         gameDisplay.blit(background, (0, 0))
-        
-        if player.shot == True:
-            bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing)
-            all_sprites.add(bullet)
 
         #UPDATE
-        all_sprites.update()
+        player.update()
 
         #DRAW
         all_sprites.draw(gameDisplay)
@@ -46,5 +41,6 @@ def playGame():
                 if event.key == pygame.K_RETURN:
                     play = False
             if event.type == pygame.QUIT:
-                return True
+                #play = False
+                return True ### Quit does not work...
         pygame.display.update()
