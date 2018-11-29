@@ -15,9 +15,13 @@ background = pygame.image.load('light_background.png')
 background = pygame.transform.scale(background, (2000, 1000))
 
 
-all_sprites = pygame.sprite.Group()
+playerGroup = pygame.sprite.Group()
 player = characters.Player()
-all_sprites.add(player)
+playerGroup.add(player)
+enemyGroup = pygame.sprite.Group()
+enemy = characters.Enemy()
+enemyGroup.add(enemy)
+bulletGroup = pygame.sprite.Group()
 keys = pygame.key.get_pressed()
 
 
@@ -29,13 +33,20 @@ def playGame():
         
         if player.shot == True:
             bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing)
-            all_sprites.add(bullet)
-
+            bulletGroup.add(bullet)
+        if pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False):
+            enemy.health -= bullet.damage
+        if enemy.alive == False:
+            enemy.remove(enemyGroup)
         #UPDATE
-        all_sprites.update()
+        playerGroup.update()
+        enemyGroup.update()
+        bulletGroup.update()
 
         #DRAW
-        all_sprites.draw(gameDisplay)
+        playerGroup.draw(gameDisplay)
+        enemyGroup.draw(gameDisplay)
+        bulletGroup.draw(gameDisplay)
 
         if (player.rect.x > display_width):
             level_1()
@@ -51,8 +62,8 @@ def playGame():
         pygame.display.update()
 
 def level_1():
-    goomba = characters.Enemy()
-    all_sprites.add(goomba)
+    enemy = characters.Enemy()
+    enemyGroup.add(enemy)
     level_bkgd = pygame.image.load('medium_background.png')
     level_bkgd = pygame.transform.scale(level_bkgd, (2000, 1000))
     level_1 = True

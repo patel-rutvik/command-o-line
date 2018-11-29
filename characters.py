@@ -19,8 +19,6 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         keys = pygame.key.get_pressed()
-        #if self.rect.x > display_width - char_size:
-         #   self.rect.x = display_width -  char_size
         if self.rect.y >= floor:
             self.rect.y = floor
             self.jumped = False
@@ -54,11 +52,11 @@ class Player(pygame.sprite.Sprite):
 
 
     def moveRight(self):
-        self.rect.x += (display_width / 150)
+        self.rect.x += (display_width / 100)
 
 
     def moveLeft(self):
-        self.rect.x -= (display_width / 150) 
+        self.rect.x -= (display_width / 100) 
 
     def jump(self):
         self.rect.y -= (display_height / 100) * 3
@@ -80,11 +78,14 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = floor
         self.rect.x = display_width - char_size
         self.health = 100
+        self.alive = True
 
     def update(self):
         self.rect.x -= 9
         if self.rect.x == 0 - char_size:
             self.rect.x = display_width
+        if self.health <= 0:
+            self.alive = False
 
 class Bullet(pygame.sprite.Sprite):
 
@@ -107,6 +108,4 @@ class Bullet(pygame.sprite.Sprite):
             self.rect.x += 30
         else:
             self.rect.x -= 30
-        if self.rect.x > display_width:
-            self.rect.x = display_width
 
