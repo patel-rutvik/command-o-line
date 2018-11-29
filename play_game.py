@@ -18,8 +18,6 @@ background = pygame.transform.scale(background, (2000, 1000))
 all_sprites = pygame.sprite.Group()
 player = characters.Player()
 all_sprites.add(player)
-goomba = characters.Enemy()
-all_sprites.add(goomba)
 keys = pygame.key.get_pressed()
 
 
@@ -39,6 +37,9 @@ def playGame():
         #DRAW
         all_sprites.draw(gameDisplay)
 
+        if (player.rect.x > display_width):
+            level_1()
+            player.rect.x = 0
 
         #END PLAY
         for event in pygame.event.get():
@@ -48,3 +49,12 @@ def playGame():
             if event.type == pygame.QUIT:
                 return True
         pygame.display.update()
+
+def level_1():
+    goomba = characters.Enemy()
+    all_sprites.add(goomba)
+    level_bkgd = pygame.image.load('medium_background.png')
+    level_bkgd = pygame.transform.scale(level_bkgd, (2000, 1000))
+    level_1 = True
+    # while level_1:........
+

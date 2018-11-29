@@ -19,8 +19,8 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         keys = pygame.key.get_pressed()
-        if self.rect.x > display_width - char_size:
-            self.rect.x = display_width -  char_size
+        #if self.rect.x > display_width - char_size:
+         #   self.rect.x = display_width -  char_size
         if self.rect.y >= floor:
             self.rect.y = floor
             self.jumped = False
@@ -54,11 +54,11 @@ class Player(pygame.sprite.Sprite):
 
 
     def moveRight(self):
-        self.rect.x += (display_width / 200)
+        self.rect.x += (display_width / 150)
 
 
     def moveLeft(self):
-        self.rect.x -= (display_width / 200)
+        self.rect.x -= (display_width / 150) 
 
     def jump(self):
         self.rect.y -= (display_height / 100) * 3
@@ -91,7 +91,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, player_x, player_y, facing):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((2,2))
-        self.image = pygame.transform.scale(self.image, (int(char_size/10), int(char_size/10)))
+        self.image = pygame.transform.scale(self.image, (int(char_size/10), int(char_size/20)))
         self.image.fill(ORANGE)
         self.rect = self.image.get_rect()
         self.rect.y = player_y + (char_size/3)
