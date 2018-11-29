@@ -14,13 +14,12 @@ gameDisplay = pygame.display.set_mode((display_width, display_height))
 background = pygame.image.load('game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
 
+
 all_sprites = pygame.sprite.Group()
 player = characters.Player()
 all_sprites.add(player)
 goomba = characters.Enemy()
 all_sprites.add(goomba)
-bullet = characters.Bullet(player.rect.x)
-all_sprites.add(bullet)
 keys = pygame.key.get_pressed()
 
 
@@ -30,6 +29,10 @@ def playGame():
     while play:
         gameDisplay.blit(background, (0, 0))
         
+        if player.shot == True:
+            bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing)
+            all_sprites.add(bullet)
+
         #UPDATE
         all_sprites.update()
 
@@ -43,6 +46,5 @@ def playGame():
                 if event.key == pygame.K_RETURN:
                     play = False
             if event.type == pygame.QUIT:
-                #play = False
-                return True ### Quit does not work...
+                return True
         pygame.display.update()

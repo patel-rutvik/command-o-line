@@ -9,11 +9,12 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("char-pikachu.png")
+        self.image = pygame.image.load("main_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.rect = self.image.get_rect()
         self.rect.y = floor
         self.facing = "right"
+        self.shot = False
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -41,7 +42,11 @@ class Player(pygame.sprite.Sprite):
         if self.jumped == True:
             Player.gravity(self)
 
-    #def shoot():
+        if keys[pygame.K_SPACE] and self.shot == False:
+            self.shot = True
+        if keys[pygame.K_SPACE] == False:
+            self.shot = False
+
 
     def flipIt(self):
         self.image = pygame.transform.flip(self.image, True, False)
@@ -67,27 +72,33 @@ class Enemy(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("goomba.png")
+        self.image = pygame.image.load("bad_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.rect = self.image.get_rect()
         self.rect.y = floor
         self.rect.x = display_width - char_size
 
     def update(self):
-        self.rect.x -= 10
+        self.rect.x -= 9
         if self.rect.x == 0 - char_size:
             self.rect.x = display_width
 
 class Bullet(pygame.sprite.Sprite):
-        def __init__(self, player_x):
-            pygame.sprite.Sprite.__init__(self)
-            self.image = pygame.image.load("bullet.png").convert()
-            self.rect = self.image.get_rect()
-            self.rect.y = floor - char_size
-            self.rect.x = player_x
 
-        def update(self):
+    def __init__(self, player_x, player_y, facing):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("bullet.png").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (int(char_size/1), int(char_size/1)))
+        self.rect = self.image.get_rect()
+        self.rect.y = player_y + (char_size/3)
+        self.rect.x = player_x + (char_size/3)
+        self.facing = facing
+
+    def update(self):
+        if self.facing == "right":
             self.rect.x += 30
-            if self.rect.x > display_width:
-                self.remove()
+        else:
+            self.rect.x -= 30
+        if self.rect.x > display_width:
+            self.rect.x = display_width
 
