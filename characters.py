@@ -13,6 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.rect = self.image.get_rect()
         self.rect.y = floor
+        self.facing = "right"
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -22,8 +23,14 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = floor
             self.jumped = False
         if keys[pygame.K_LEFT]:
+            if self.facing == "right":
+                Player.flipIt(self)
+                self.facing = "left"
             Player.moveLeft(self)
         if keys[pygame.K_RIGHT]:
+            if self.facing == "left":
+                Player.flipIt(self)
+                self.facing = "right"
             Player.moveRight(self)
         if keys[pygame.K_UP] and self.jumped == False:
             Player.jump(self)
@@ -33,6 +40,12 @@ class Player(pygame.sprite.Sprite):
             self.jumped = True
         if self.jumped == True:
             Player.gravity(self)
+
+    #def shoot():
+
+    def flipIt(self):
+        self.image = pygame.transform.flip(self.image, True, False)
+
 
     def moveRight(self):
         self.rect.x += (display_width / 200)
@@ -46,6 +59,7 @@ class Player(pygame.sprite.Sprite):
         
     def gravity(self):
         self.rect.y += (display_height / 100) * 3
+
 
 
 
@@ -63,3 +77,17 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x -= 10
         if self.rect.x == 0 - char_size:
             self.rect.x = display_width
+
+class Bullet(pygame.sprite.Sprite):
+        def __init__(self, player_x):
+            pygame.sprite.Sprite.__init__(self)
+            self.image = pygame.image.load("bullet.png").convert()
+            self.rect = self.image.get_rect()
+            self.rect.y = floor - char_size
+            self.rect.x = player_x
+
+        def update(self):
+            self.rect.x += 30
+            if self.rect.x > display_width:
+                self.remove()
+

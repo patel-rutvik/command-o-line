@@ -19,6 +19,8 @@ player = characters.Player()
 all_sprites.add(player)
 goomba = characters.Enemy()
 all_sprites.add(goomba)
+bullet = characters.Bullet(player.rect.x)
+all_sprites.add(bullet)
 keys = pygame.key.get_pressed()
 
 
@@ -27,10 +29,9 @@ def playGame():
 
     while play:
         gameDisplay.blit(background, (0, 0))
-
+        
         #UPDATE
-        player.update()
-        goomba.update()
+        all_sprites.update()
 
         #DRAW
         all_sprites.draw(gameDisplay)
