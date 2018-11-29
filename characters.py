@@ -1,5 +1,6 @@
 import pygame
 import time
+ORANGE = (255, 165, 0)
 display_width, display_height = 2000, 1000
 char_size = int(display_width / 10)
 floor = int(display_height - (2 * char_size))
@@ -74,9 +75,11 @@ class Enemy(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("bad_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
+        self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
         self.rect.y = floor
         self.rect.x = display_width - char_size
+        self.health = 100
 
     def update(self):
         self.rect.x -= 9
@@ -87,12 +90,17 @@ class Bullet(pygame.sprite.Sprite):
 
     def __init__(self, player_x, player_y, facing):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("bullet.png").convert_alpha()
-        self.image = pygame.transform.scale(self.image, (int(char_size/1), int(char_size/1)))
+        self.image = pygame.Surface((2,2))
+        self.image = pygame.transform.scale(self.image, (int(char_size/10), int(char_size/10)))
+        self.image.fill(ORANGE)
         self.rect = self.image.get_rect()
         self.rect.y = player_y + (char_size/3)
-        self.rect.x = player_x + (char_size/3)
+        if facing == "right":
+            self.rect.x = player_x + (8*char_size/9)
+        if facing == "left":
+            self.rect.x = player_x
         self.facing = facing
+        self.damage = 10
 
     def update(self):
         if self.facing == "right":
