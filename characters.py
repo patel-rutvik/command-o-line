@@ -19,6 +19,8 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         keys = pygame.key.get_pressed()
+        if self.rect.x <= 0:
+            self.rect.x = 0
         if self.rect.y >= floor:
             self.rect.y = floor
             self.jumped = False

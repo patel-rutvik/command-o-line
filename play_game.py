@@ -12,7 +12,7 @@ hoveryellow = (200, 200, 0)
 display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
-background = pygame.image.load('light_background.png')
+background = pygame.image.load('game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
 
 
@@ -26,21 +26,27 @@ keys = pygame.key.get_pressed()
 
 def playGame():
     play = True
+    levelCounter = 1
 
     while play:     
-        logic(playerGroup, enemyGroup, bulletGroup)
+        logic(background)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     play = False
             if event.type == pygame.QUIT:
                 return True
+        # IF the level counter > 1 then add pick ups
         if (player.rect.x > display_width):
-            level_1()
-            print("Nice")
+            if (levelCounter == 1):
+                level_1()
+            elif (levelCounter == 2):
+                level_2()
+            levelCounter += 1
+            player.rect.x = 0
 
-def logic(playerGroup, enemyGroup, bulletGroup):
-    gameDisplay.blit(background, (0, 0))
+def logic(bkgd):
+    gameDisplay.blit(bkgd, (0, 0))
         
     if player.shot == True:
         bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing)
@@ -73,12 +79,12 @@ def logic(playerGroup, enemyGroup, bulletGroup):
 def level_1():
     enemy = characters.Enemy()
     enemyGroup.add(enemy)
-    level_bkgd = pygame.image.load('medium_background.png')
+    level_bkgd = pygame.image.load('light_background.png')
     level_bkgd = pygame.transform.scale(level_bkgd, (2000, 1000))
     level_1 = True
     player.rect.x = 0
     while level_1:
-        logic(playerGroup, enemyGroup, bulletGroup)
+        logic(level_bkgd)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
@@ -89,3 +95,5 @@ def level_1():
             level_1 = False
 
 
+def level_2():
+    pass
