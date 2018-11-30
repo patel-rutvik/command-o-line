@@ -41,15 +41,14 @@ def playGame():
 
 def logic(playerGroup, enemyGroup, bulletGroup):
     gameDisplay.blit(background, (0, 0))
-    print(bulletGroup.sprites())
         
     if player.shot == True:
         bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing)
         bulletGroup.add(bullet)
-    for enemy in enemyGroup:
-        if pygame.sprite.spritecollideany(enemy, bulletGroup):
-            pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
-            enemy.health -= 10
+    hitList = pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
+    for bull in hitList:
+        for enmy in hitList[bull]:
+            enmy.health -= bull.damage
     for enemy in enemyGroup.sprites():
         if enemy.alive == False:
             enemy.remove(enemyGroup)
