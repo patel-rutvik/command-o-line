@@ -1,5 +1,5 @@
 import pygame
-from util import displayText, button, importPic
+from util import displayText, button
 import characters
 
 black = (0, 0, 0)
@@ -17,19 +17,18 @@ all_sprites = pygame.sprite.Group()
 player = characters.Player()
 all_sprites.add(player)
 
-background = pygame.image.load('game_background.jpg')
+background = pygame.image.load('images/game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
-left_key = pygame.image.load('left_key.png')
+left_key = pygame.image.load('images/left_key.png')
 left_key = pygame.transform.scale(left_key, (100, 100))
-right_key = pygame.image.load('right_key.png')
+right_key = pygame.image.load('images/right_key.png')
 right_key = pygame.transform.scale(right_key, (100, 100))
-up_key = pygame.image.load('up_key.png')
+up_key = pygame.image.load('images/up_key.png')
 up_key = pygame.transform.scale(up_key, (100, 100))
 
 
 def tutorialScreen():
     tutorial = True
-    importPic()
     while tutorial:
         gameDisplay.blit(background, (0, 0))
 

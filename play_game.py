@@ -12,7 +12,7 @@ hoveryellow = (200, 200, 0)
 display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
-background = pygame.image.load('game_background.jpg')
+background = pygame.image.load('images/game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
 
 
@@ -79,7 +79,7 @@ def logic(bkgd):
 def level_1():
     enemy = characters.Enemy()
     enemyGroup.add(enemy)
-    level_bkgd = pygame.image.load('light_background.png')
+    level_bkgd = pygame.image.load('images/light_background.png')
     level_bkgd = pygame.transform.scale(level_bkgd, (2000, 1000))
     level_1 = True
     player.rect.x = 0

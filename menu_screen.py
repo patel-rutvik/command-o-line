@@ -1,5 +1,5 @@
 import pygame
-from util import displayText, button, importPic
+from util import displayText, button
 import characters
 white = (255, 255, 255)
 hovergreen = (140, 240, 100)
@@ -12,7 +12,7 @@ black = (0, 0, 0)
 display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
-background = pygame.image.load('game_background.jpg')
+background = pygame.image.load('images/game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
 button_size = int((display_width / display_height) * 25)
 # https://www.1001freefonts.com/retro-fonts-4.php 

@@ -40,14 +40,3 @@ def button(text, font_type, fontsize, fontcolor, color, hover_color, x, y, buff,
     if (state != ""):
         return state
 
-
-
-def importPic():
-    background = pygame.image.load('game_background.jpg')
-    background = pygame.transform.scale(background, (2000, 1000))
-    left_key = pygame.image.load('left_key.png')
-    left_key = pygame.transform.scale(left_key, (100, 100))
-    right_key = pygame.image.load('right_key.png')
-    right_key = pygame.transform.scale(right_key, (100, 100))
-    up_key = pygame.image.load('up_key.png')
-    up_key = pygame.transform.scale(up_key, (100, 100))

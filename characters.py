@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("main_guy.png")
+        self.image = pygame.image.load("images/main_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.rect = self.image.get_rect()
         self.rect.y = floor
@@ -73,7 +73,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("bad_guy.png")
+        self.image = pygame.image.load("images/bad_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
