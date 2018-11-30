@@ -102,10 +102,13 @@ class Bullet(pygame.sprite.Sprite):
             self.rect.x = player_x
         self.facing = facing
         self.damage = 10
+        self.alive = True
 
     def update(self):
         if self.facing == "right":
             self.rect.x += 30
         else:
             self.rect.x -= 30
+        if self.rect.x > display_width or self.rect.x < 0:
+            self.alive = False
 

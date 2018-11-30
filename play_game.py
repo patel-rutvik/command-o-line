@@ -38,6 +38,10 @@ def playGame():
             enemy.health -= bullet.damage
         if enemy.alive == False:
             enemy.remove(enemyGroup)
+        for bullet in bulletGroup.sprites():
+            if bullet.alive == False:
+                bulletGroup.remove(bullet)
+
         #UPDATE
         playerGroup.update()
         enemyGroup.update()
