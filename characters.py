@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = floor
         self.facing = "right"
         self.shot = False
+        self.canShoot = True
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -43,11 +44,12 @@ class Player(pygame.sprite.Sprite):
         if self.jumped == True:
             Player.gravity(self)
 
-        if keys[pygame.K_SPACE] and self.shot == False:
+        if keys[pygame.K_SPACE] and self.canShoot == True:
             self.shot = True
-        if keys[pygame.K_SPACE] == False:
+        if self.canShoot == False:
             self.shot = False
-
+        if keys[pygame.K_SPACE] == False:
+            self.canShoot = True
 
     def flipIt(self):
         self.image = pygame.transform.flip(self.image, True, False)
@@ -108,9 +110,9 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self):
         if self.facing == "right":
-            self.rect.x += 30
+            self.rect.x += 45
         else:
-            self.rect.x -= 30
+            self.rect.x -= 45
         if self.rect.x > display_width or self.rect.x < 0:
             self.alive = False
 

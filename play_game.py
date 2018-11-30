@@ -32,7 +32,7 @@ def playGame():
         logic(background)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_m:
                     play = False
             if event.type == pygame.QUIT:
                 return True
@@ -51,6 +51,7 @@ def logic(bkgd):
     if player.shot == True:
         bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing)
         bulletGroup.add(bullet)
+        player.canShoot = False
     hitList = pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
     for bull in hitList:
         for enmy in hitList[bull]:
