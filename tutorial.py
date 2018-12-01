@@ -32,13 +32,13 @@ def tutorialScreen():
     while tutorial:
         gameDisplay.blit(background, (0, 0))
 
-        displayText("Tutorial", 'Antonio-Bold.ttf', 100, display_width / 2, 100, white, 0)
-        displayText("You will be controlling Pikachu.", 'Antonio-Regular.ttf', 30, display_width / 2, 200, black, 0)
-        displayText("Press       on the keypad to move right. Press       on the keypad to move left.", 'Antonio-Regular.ttf',
+        displayText("Tutorial", 'fonts/Antonio-Bold.ttf', 100, display_width / 2, 100, white, 0)
+        displayText("You will be controlling Roberto.", 'fonts/Antonio-Regular.ttf', 30, display_width / 2, 200, black, 0)
+        displayText("Press       on the keypad to move right. Press       on the keypad to move left.", 'fonts/Antonio-Regular.ttf',
                      25, display_width / 2, 300, black, 0)
-        displayText("Press       on the keypad to JUMP.", 'Antonio-Regular.ttf', 25, display_width / 2, 340, black, 0)
-        displayText("Press the SPACE BAR to shoot straight in front of you", 'Antonio-Regular.ttf', 25, display_width / 2, 380, black, 0)
-        tempState = button("Main Menu (m)", 'Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, False)
+        displayText("Press       on the keypad to JUMP.", 'fonts/Antonio-Regular.ttf', 25, display_width / 2, 340, black, 0)
+        displayText("Press the SPACE BAR to shoot straight in front of you", 'fonts/Antonio-Regular.ttf', 25, display_width / 2, 380, black, 0)
+        tempState = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, False)
         if tempState != None:
             tutorial = tempState
         gameDisplay.blit(right_key, (635, 225))

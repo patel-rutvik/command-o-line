@@ -68,7 +68,7 @@ def logic(bkgd):
         if bullet.alive == False:
             bulletGroup.remove(bullet)
     back2menu = False
-    back2menu = button("Main Menu (m)", 'Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
+    back2menu = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
 
     #UPDATE
     playerGroup.update()
