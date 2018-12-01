@@ -185,13 +185,16 @@ class tutorialGuy(pygame.sprite.Sprite):
         self.facing = "right"
         self.shot = False
         self.canShoot = True
+        self.rect.x = 1200
 
     def update(self):
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
-        if self.rect.x <= 0:
-            self.rect.x = 0
+        if self.rect.x <= 1200 - char_size:
+            self.rect.x = display_width + char_size
+        if self.rect.x >= display_width + char_size:
+            self.rect.x = 1200 - char_size
         if self.rect.y >= floor:
             self.rect.y = floor
             self.jumped = False
