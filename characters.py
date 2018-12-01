@@ -1,6 +1,7 @@
 import pygame
 import time
 import math
+import random
 ORANGE = (255, 165, 0)
 display_width, display_height = 2000, 1000
 char_size = int(display_width / 10)
@@ -114,12 +115,23 @@ class Bullet(pygame.sprite.Sprite):
         self.location = location
         self.originX = self.rect.x
         self.originY = self.rect.y
-        self.speed = 10
+        self.speed = 45
 
     def update(self):
         Xspeed, Yspeed = Bullet.calc(self)
-        self.rect.x -= Xspeed
-        self.rect.y += Yspeed
+        if self.originX < self.location[0] and self.originY > self.location[1]:
+            self.rect.x += Xspeed
+            self.rect.y += Yspeed
+        elif self.originX > self.location[0] and self.originY > self.location[1]:
+            self.rect.x -= Xspeed
+            self.rect.y -= Yspeed
+        elif self.originX > self.location[0] and self.originY < self.location[1]:
+            self.rect.x -= Xspeed
+            self.rect.y -= Yspeed
+        else:
+            self.rect.x += Xspeed
+            self.rect.y += Yspeed
+
         if self.rect.x > display_width or self.rect.x < 0 or self.rect.y < 0 or self.rect.y > display_height:
             self.alive = False
 
