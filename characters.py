@@ -29,21 +29,21 @@ class Player(pygame.sprite.Sprite):
         if self.rect.y >= floor:
             self.rect.y = floor
             self.jumped = False
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             if self.facing == "right":
                 Player.flipIt(self)
                 self.facing = "left"
             Player.moveLeft(self)
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             if self.facing == "left":
                 Player.flipIt(self)
                 self.facing = "right"
             Player.moveRight(self)
-        if keys[pygame.K_UP] and self.jumped == False:
+        if (keys[pygame.K_UP] or keys[pygame.K_w]) and self.jumped == False:
             Player.jump(self)
             if self.rect.y <= (floor - ceiling):
                 self.jumped = True
-        if (keys[pygame.K_UP] == False and self.rect.y < floor):
+        if ((keys[pygame.K_UP] == False and not keys[pygame.K_w]) and self.rect.y < floor):
             self.jumped = True
         if self.jumped == True:
             Player.gravity(self)
