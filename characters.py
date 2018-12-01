@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 ORANGE = (255, 165, 0)
 display_width, display_height = 2000, 1000
 char_size = int(display_width / 10)
@@ -17,6 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.facing = "right"
         self.shot = False
         self.canShoot = True
+
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -50,6 +52,7 @@ class Player(pygame.sprite.Sprite):
             self.shot = False
         if keys[pygame.K_SPACE] == False:
             self.canShoot = True
+
 
     def flipIt(self):
         self.image = pygame.transform.flip(self.image, True, False)
@@ -116,3 +119,34 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.x > display_width or self.rect.x < 0:
             self.alive = False
 
+class menugoodGuy(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("images/main_guy.png")
+        self.image = pygame.transform.scale(self.image, (char_size, char_size))
+        self.rect = self.image.get_rect()
+        self.rect.y = floor
+        self.rect.x = 0
+
+    def update(self):
+        self.rect.x += 7
+        if self.rect.x > display_width:
+            self.rect.x = 0 - char_size
+
+
+class menubadGuy(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("images/bad_guy.png")
+        self.image = pygame.transform.scale(self.image, (char_size, char_size))
+        self.image = pygame.transform.flip(self.image, True, False)
+        self.rect = self.image.get_rect()
+        self.rect.y = floor
+        self.rect.x = random.randint(0, display_width)
+
+    def update(self):
+        self.rect.x -= random.randint(0, 25)
+        if self.rect.x < 0 - char_size:
+            self.rect.x = display_width + char_size

@@ -38,7 +38,7 @@ def tutorialScreen():
                      25, display_width / 2, 300, black, 0)
         displayText("Press       on the keypad to JUMP.", 'Antonio-Regular.ttf', 25, display_width / 2, 340, black, 0)
         displayText("Press the SPACE BAR to shoot straight in front of you", 'Antonio-Regular.ttf', 25, display_width / 2, 380, black, 0)
-        tempState = button("Main Menu (ENTER)", 'Antonio-Regular.ttf', 40, white, red, hoverred, 1850, 970, 25, False)
+        tempState = button("Main Menu (m)", 'Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, False)
         if tempState != None:
             tutorial = tempState
         gameDisplay.blit(right_key, (635, 225))
@@ -46,7 +46,7 @@ def tutorialScreen():
         gameDisplay.blit(up_key, (866, 315))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_m:
                     tutorial = False
             if event.type == pygame.QUIT:
                 return True ### Quit does not work...

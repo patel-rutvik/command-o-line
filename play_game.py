@@ -7,6 +7,7 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 green = (100, 200, 100)
 red = (200, 0, 0)
+hoverred = (230, 0, 0)
 yellow = (180, 180, 0)
 hoveryellow = (200, 200, 0)
 display_width, display_height = 2000, 1000
@@ -27,9 +28,10 @@ keys = pygame.key.get_pressed()
 def playGame():
     play = True
     levelCounter = 1
-
+    #transition = True
     while play:     
-        logic(background)
+        menu_state = logic(background)
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_m:
@@ -44,12 +46,15 @@ def playGame():
                 level_2()
             levelCounter += 1
             player.rect.x = 0
+        if menu_state == True:
+            play = False
+
 
 def logic(bkgd):
     gameDisplay.blit(bkgd, (0, 0))
         
     if player.shot == True:
-        bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing)
+        bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing, player.location)
         bulletGroup.add(bullet)
         player.canShoot = False
     hitList = pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
@@ -62,6 +67,8 @@ def logic(bkgd):
     for bullet in bulletGroup.sprites():
         if bullet.alive == False:
             bulletGroup.remove(bullet)
+    back2menu = False
+    back2menu = button("Main Menu (m)", 'Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
 
     #UPDATE
     playerGroup.update()
@@ -74,6 +81,9 @@ def logic(bkgd):
     bulletGroup.draw(gameDisplay)
 
     pygame.display.update()
+
+    if back2menu == False:
+        return True
 
 
 
