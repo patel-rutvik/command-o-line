@@ -1,6 +1,6 @@
 import pygame
 import time
-import random
+import math
 ORANGE = (255, 165, 0)
 display_width, display_height = 2000, 1000
 char_size = int(display_width / 10)
@@ -19,9 +19,10 @@ class Player(pygame.sprite.Sprite):
         self.shot = False
         self.canShoot = True
 
-
     def update(self):
         keys = pygame.key.get_pressed()
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
         if self.rect.x <= 0:
             self.rect.x = 0
         if self.rect.y >= floor:
@@ -46,13 +47,13 @@ class Player(pygame.sprite.Sprite):
         if self.jumped == True:
             Player.gravity(self)
 
-        if keys[pygame.K_SPACE] and self.canShoot == True:
+        if click[0] and self.canShoot == True:
+            self.location = mouse
             self.shot = True
         if self.canShoot == False:
             self.shot = False
-        if keys[pygame.K_SPACE] == False:
+        if click[0] == False:
             self.canShoot = True
-
 
     def flipIt(self):
         self.image = pygame.transform.flip(self.image, True, False)
@@ -96,7 +97,7 @@ class Enemy(pygame.sprite.Sprite):
 
 class Bullet(pygame.sprite.Sprite):
 
-    def __init__(self, player_x, player_y, facing):
+    def __init__(self, player_x, player_y, facing, location):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((2,2))
         self.image = pygame.transform.scale(self.image, (int(char_size/10), int(char_size/20)))
@@ -110,14 +111,26 @@ class Bullet(pygame.sprite.Sprite):
         self.facing = facing
         self.damage = 10
         self.alive = True
+        self.location = location
+        self.originX = self.rect.x
+        self.originY = self.rect.y
+        self.speed = 10
 
     def update(self):
-        if self.facing == "right":
-            self.rect.x += 45
-        else:
-            self.rect.x -= 45
-        if self.rect.x > display_width or self.rect.x < 0:
+        Xspeed, Yspeed = Bullet.calc(self)
+        self.rect.x -= Xspeed
+        self.rect.y += Yspeed
+        if self.rect.x > display_width or self.rect.x < 0 or self.rect.y < 0 or self.rect.y > display_height:
             self.alive = False
+
+    def calc(self):
+        deltaX = self.location[0] - self.originX + 0.0001
+        deltaY = self.location[1] - self.originY
+        theta = math.atan(deltaY/deltaX)
+        Xspeed = self.speed * math.cos(theta)
+        Yspeed = self.speed * math.sin(theta)
+        print(Xspeed)
+        return Xspeed, Yspeed
 
 class menugoodGuy(pygame.sprite.Sprite):
 
