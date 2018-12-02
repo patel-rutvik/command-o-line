@@ -1,5 +1,6 @@
 import pygame
-from util import displayText, button, importPic
+from util import displayText, button
+import characters
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -12,37 +13,55 @@ display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 
-background = pygame.image.load('game_background.jpg')
-background = pygame.transform.scale(background, (2000, 1000))
-left_key = pygame.image.load('left_key.png')
-left_key = pygame.transform.scale(left_key, (100, 100))
-right_key = pygame.image.load('right_key.png')
-right_key = pygame.transform.scale(right_key, (100, 100))
-up_key = pygame.image.load('up_key.png')
-up_key = pygame.transform.scale(up_key, (100, 100))
+all_sprites = pygame.sprite.Group()
+player = characters.Player()
+all_sprites.add(player)
 
+background = pygame.image.load('images/game_background.jpg')
+background = pygame.transform.scale(background, (2000, 1000))
+left_key = pygame.image.load('images/left_key.png')
+left_key = pygame.transform.scale(left_key, (125, 125))
+right_key = pygame.image.load('images/right_key.png')
+right_key = pygame.transform.scale(right_key, (125, 125))
+up_key = pygame.image.load('images/up_key.png')
+up_key = pygame.transform.scale(up_key, (125, 125))
+character = pygame.image.load('images/main_guy.png')
+character = pygame.transform.scale(character, (150,150))
+
+tutorialGroup = pygame.sprite.Group()
+tutorialPlayer = characters.tutorialGuy()
+tutorialGroup.add(tutorialPlayer)
+bulletGroup = pygame.sprite.Group()
 
 def tutorialScreen():
     tutorial = True
-    importPic()
     while tutorial:
-        gameDisplay.fill(black)
         gameDisplay.blit(background, (0, 0))
-        displayText("Tutorial", 'Antonio-Bold.ttf', 100, display_width / 2, 100, white, 0)
-        displayText("You will be controlling Pikachu.", 'Antonio-Regular.ttf', 30, display_width / 2, 200, black, 0)
-        displayText("Press       on the keypad to move right. Press       on the keypad to move left.", 'Antonio-Regular.ttf',
-                     25, display_width / 2, 300, black, 0)
-        displayText("Press       on the keypad to JUMP.", 'Antonio-Regular.ttf', 25, display_width / 2, 340, black, 0)
-        displayText("Press the SPACE BAR to shoot straight in front of you", 'Antonio-Regular.ttf', 25, display_width / 2, 380, black, 0)
-        tempState = button("Main Menu (ENTER)", 'Antonio-Regular.ttf', 40, white, red, hoverred, 1850, 970, 25, False)
+        gameDisplay.blit(character, ((display_width / 2) + 185, 180))
+        if tutorialPlayer.shot == True:
+            bullet = characters.Bullet(tutorialPlayer.rect.x, tutorialPlayer.rect.y, tutorialPlayer.facing, tutorialPlayer.location)
+            bulletGroup.add(bullet)
+            tutorialPlayer.canShoot = False
+        tutorialGroup.update()
+        bulletGroup.update()
+        bulletGroup.draw(gameDisplay)
+        tutorialGroup.draw(gameDisplay)
+        displayText("Tutorial", 'fonts/Antonio-Bold.ttf', 125, display_width / 2, 100, white, 0)
+        displayText("You will be controlling             ", 'fonts/Antonio-Regular.ttf', 65, (display_width / 2), 275, white, 0)
+        displayText("Roberto", 'fonts/Antonio-Bold.ttf', 30, (display_width / 2) + 250, 350, white, 0)
+        displayText("Press       on the keypad to move right", 'fonts/Antonio-Regular.ttf', 50, (display_width / 3), 475, white, 0)
+        displayText("Press       on the keypad to move left", 'fonts/Antonio-Regular.ttf', 50, (display_width / 3), 575, white, 0)
+        displayText("Press       on the keypad to jump", 'fonts/Antonio-Regular.ttf', 50, (display_width / 3), 675, white, 0)
+        displayText("Use the mouse to aim and shoot!", 'fonts/Antonio-Regular.ttf', 50, (display_width / 3), 775, white, 0)
+        tempState = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, False)
         if tempState != None:
             tutorial = tempState
-        gameDisplay.blit(right_key, (635, 225))
-        gameDisplay.blit(left_key, (1063, 225))
-        gameDisplay.blit(up_key, (866, 315))
+        gameDisplay.blit(right_key, ((display_width / 3) - 310, 385))
+        gameDisplay.blit(left_key, ((display_width / 3) - 215, 480))
+        gameDisplay.blit(up_key, ((display_width / 3) - 225, 635))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_m:
                     tutorial = False
             if event.type == pygame.QUIT:
                 return True ### Quit does not work...

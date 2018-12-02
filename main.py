@@ -19,7 +19,7 @@ def game_loop(quit):
                 # We can add an "Are you sure you would like to quit" window later... 
                 quit = True
         gameState = menuScreen(None)
-        print("State of game: ", gameState, '\n')
+
         if gameState == "quit":
             quit = True
         elif gameState == "tutorial":
