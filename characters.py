@@ -3,10 +3,11 @@ import time
 import math
 import random
 ORANGE = (255, 165, 0)
+BLACK = (0, 0, 0)
 display_width, display_height = 2000, 1000
 char_size = int(display_width / 10)
 floor = int(display_height - (2 * char_size))
-ceiling = int((2*floor) / 5) 
+ceiling = int((4*floor) / 9) 
 
 class Player(pygame.sprite.Sprite):
 
@@ -15,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load("images/main_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.rect = self.image.get_rect()
+        self.size = char_size
         self.rect.y = floor
         self.facing = "right"
         self.shot = False
@@ -68,10 +70,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.x -= (display_width / 100) 
 
     def jump(self):
-        self.rect.y -= (display_height / 100) * 3
+        self.rect.y -= (display_height / 100) * 4
         
     def gravity(self):
-        self.rect.y += (display_height / 100) * 3
+        self.rect.y += (display_height / 100) * 4
 
 
 
@@ -85,7 +87,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
         self.rect.y = floor
-        self.rect.x = display_width - char_size
+        self.rect.x = random.randint(1200, display_width + (4*char_size))
         self.health = 100
         self.alive = True
 
@@ -242,3 +244,37 @@ class tutorialGuy(pygame.sprite.Sprite):
     def gravity(self):
         self.rect.y += (display_height / 100) * 3
         
+class ledgeEnemy(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("images/bad_guy.png")
+        self.image = pygame.transform.scale(self.image, (char_size, char_size))
+        self.image = pygame.transform.flip(self.image, True, False)
+        self.rect = self.image.get_rect()
+        self.rect.y = floor - 500
+        self.rect.x = random.randint(1500 - char_size, display_width + (4*char_size))
+        self.health = 100
+        self.alive = True
+        self.ledge_reached = False
+
+    def update(self):
+        if self.ledge_reached == False:
+            self.rect.x -= 9
+        if self.rect.x <= 1500:
+            self.ledge_reached = True
+            self.rect.x = 1500
+        if self.health <= 0:
+            self.alive = False
+
+class Ledge(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((2,2))
+        self.image = pygame.transform.scale(self.image, (500, 50))
+        self.image.fill(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.y = floor - 300
+        self.rect.x = display_width - 500
+
+    

@@ -22,6 +22,7 @@ player = characters.Player()
 playerGroup.add(player)
 enemyGroup = pygame.sprite.Group()
 bulletGroup = pygame.sprite.Group()
+ledgeGroup = pygame.sprite.Group()
 keys = pygame.key.get_pressed()
 
 
@@ -41,11 +42,18 @@ def playGame():
         # IF the level counter > 1 then add pick ups
         if (player.rect.x > display_width):
             if (levelCounter == 1):
-                level_1()
+                bulletGroup.empty()
+                level(1, levelCounter, 'images/light_background.png', False, 0)
             elif (levelCounter == 2):
-                level_2()
+                level(2, levelCounter, 'images/medium_background.png', True, 1)
+            elif (levelCounter == 3):
+                level(2, levelCounter, 'images/city_background.png', True, 2)
+            elif (levelCounter == 4):
+                level(3, levelCounter, 'images/misty_background.jpg', True, 3)
             levelCounter += 1
             player.rect.x = 0
+            bulletGroup.empty()
+            ledgeGroup.empty()
         if menu_state == True:
             play = False
 
@@ -74,11 +82,13 @@ def logic(bkgd):
     playerGroup.update()
     enemyGroup.update()
     bulletGroup.update()
+    ledgeGroup.update()
 
     #DRAW
     playerGroup.draw(gameDisplay)
     enemyGroup.draw(gameDisplay)
     bulletGroup.draw(gameDisplay)
+    ledgeGroup.draw(gameDisplay)
 
     pygame.display.update()
 
@@ -87,14 +97,20 @@ def logic(bkgd):
 
 
 
-def level_1():
-    enemy = characters.Enemy()
-    enemyGroup.add(enemy)
-    level_bkgd = pygame.image.load('images/light_background.png')
+def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
+    for i in range(num_enemy):
+        enemy = characters.Enemy()
+        enemyGroup.add(enemy)
+    if isLedge:
+        ledge = characters.Ledge()
+        ledgeGroup.add(ledge)
+    for j in range(num_ledge_enemies):
+        ledge_enemy = characters.ledgeEnemy()
+        enemyGroup.add(ledge_enemy)
+    level_bkgd = pygame.image.load(background)
     level_bkgd = pygame.transform.scale(level_bkgd, (2000, 1000))
-    level_1 = True
     player.rect.x = 0
-    while level_1:
+    while True:
         logic(level_bkgd)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -102,9 +118,7 @@ def level_1():
                     play = False
             if event.type == pygame.QUIT:
                 pygame.quit()
-        if (player.rect.x > display_width):
-            level_1 = False
-
-
-def level_2():
-    pass
+        if (player.rect.x >= display_width) and (len(enemyGroup.sprites()) == 0):
+            break
+        elif (player.rect.x >= (display_width - player.size)) and (len(enemyGroup.sprites()) > 0):
+            player.rect.x = display_width - player.size
