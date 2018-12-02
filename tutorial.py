@@ -31,13 +31,20 @@ character = pygame.transform.scale(character, (150,150))
 tutorialGroup = pygame.sprite.Group()
 tutorialPlayer = characters.tutorialGuy()
 tutorialGroup.add(tutorialPlayer)
+bulletGroup = pygame.sprite.Group()
 
 def tutorialScreen():
     tutorial = True
     while tutorial:
         gameDisplay.blit(background, (0, 0))
         gameDisplay.blit(character, ((display_width / 2) + 185, 180))
+        if tutorialPlayer.shot == True:
+            bullet = characters.Bullet(tutorialPlayer.rect.x, tutorialPlayer.rect.y, tutorialPlayer.facing, tutorialPlayer.location)
+            bulletGroup.add(bullet)
+            tutorialPlayer.canShoot = False
         tutorialGroup.update()
+        bulletGroup.update()
+        bulletGroup.draw(gameDisplay)
         tutorialGroup.draw(gameDisplay)
         displayText("Tutorial", 'fonts/Antonio-Bold.ttf', 125, display_width / 2, 100, white, 0)
         displayText("You will be controlling             ", 'fonts/Antonio-Regular.ttf', 65, (display_width / 2), 275, white, 0)
