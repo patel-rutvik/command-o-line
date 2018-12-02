@@ -65,6 +65,7 @@ def logic(bkgd):
         bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing, player.location)
         bulletGroup.add(bullet)
         player.canShoot = False
+    pygame.sprite.groupcollide(bulletGroup, ledgeGroup, True, False)
     hitList = pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
     for bull in hitList:
         for enmy in hitList[bull]:
