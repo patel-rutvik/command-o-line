@@ -22,6 +22,7 @@ player = characters.Player()
 playerGroup.add(player)
 enemyGroup = pygame.sprite.Group()
 bulletGroup = pygame.sprite.Group()
+ledgeGroup = pygame.sprite.Group()
 keys = pygame.key.get_pressed()
 
 
@@ -30,7 +31,7 @@ def playGame():
     levelCounter = 1
     #transition = True
     while play:     
-        menu_state = logic(background)
+        menu_state = logic(background, False, 0)
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -41,22 +42,32 @@ def playGame():
         # IF the level counter > 1 then add pick ups
         if (player.rect.x > display_width):
             if (levelCounter == 1):
-                level_1()
+                bulletGroup.empty()
+                level(1, levelCounter, 'images/light_background.png', False, 0)
             elif (levelCounter == 2):
-                level_2()
+                level(2, levelCounter, 'images/medium_background.png', True, 1)
+            elif (levelCounter == 3):
+                level(2, levelCounter, 'images/city_background.png', True, 2)
+            elif (levelCounter == 4):
+                level(3, levelCounter, 'images/misty_background.jpg', True, 3)
             levelCounter += 1
             player.rect.x = 0
+            bulletGroup.empty()
+            ledgeGroup.empty()
         if menu_state == True:
             play = False
 
 
-def logic(bkgd):
+def logic(bkgd, playing, level_count):
     gameDisplay.blit(bkgd, (0, 0))
+    back2menu = False
         
     if player.shot == True:
         bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing, player.location)
         bulletGroup.add(bullet)
         player.canShoot = False
+        player.ammo -= 1
+    pygame.sprite.groupcollide(bulletGroup, ledgeGroup, True, False)
     hitList = pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
     for bull in hitList:
         for enmy in hitList[bull]:
@@ -67,18 +78,34 @@ def logic(bkgd):
     for bullet in bulletGroup.sprites():
         if bullet.alive == False:
             bulletGroup.remove(bullet)
-    back2menu = False
-    back2menu = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
 
     #UPDATE
     playerGroup.update()
     enemyGroup.update()
     bulletGroup.update()
+    ledgeGroup.update()
 
     #DRAW
     playerGroup.draw(gameDisplay)
     enemyGroup.draw(gameDisplay)
     bulletGroup.draw(gameDisplay)
+    ledgeGroup.draw(gameDisplay)
+
+    pygame.draw.rect(gameDisplay, black, ((0, 0), (display_width, display_height / 15)))
+    healthString = str("Health: " + str(player.health) + "/100")
+    ammoString = str("Ammo: " + str(player.ammo) + "/100")
+    displayText(healthString, 'fonts/Antonio-Regular.ttf', 30, 100, 30, white, 25)
+    displayText(ammoString , 'fonts/Antonio-Regular.ttf', 30, 500, 30, white, 25)
+
+    if playing:
+        enemyString = str('Enemies remaining: ' + str(len(enemyGroup.sprites())))
+        levelString = str('Level: ' + str(level_count))
+        displayText(enemyString, 'fonts/Antonio-Regular.ttf', 30, 1850, 30, white, 20)
+        displayText(levelString, 'fonts/Antonio-Regular.ttf', 40, display_width / 2, 30, white, 20)
+    else:
+        back2menu = False
+        back2menu = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
+
 
     pygame.display.update()
 
@@ -87,24 +114,29 @@ def logic(bkgd):
 
 
 
-def level_1():
-    enemy = characters.Enemy()
-    enemyGroup.add(enemy)
-    level_bkgd = pygame.image.load('images/light_background.png')
+def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
+    for i in range(num_enemy):
+        enemy = characters.Enemy()
+        enemyGroup.add(enemy)
+    if isLedge:
+        ledge = characters.Ledge()
+        ledgeGroup.add(ledge)
+    for j in range(num_ledge_enemies):
+        ledge_enemy = characters.ledgeEnemy()
+        enemyGroup.add(ledge_enemy)
+    level_bkgd = pygame.image.load(background)
     level_bkgd = pygame.transform.scale(level_bkgd, (2000, 1000))
-    level_1 = True
     player.rect.x = 0
-    while level_1:
-        logic(level_bkgd)
+    while True:
+        logic(level_bkgd, True, level_num)
+        #pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     play = False
             if event.type == pygame.QUIT:
                 pygame.quit()
-        if (player.rect.x > display_width):
-            level_1 = False
-
-
-def level_2():
-    pass
+        if (player.rect.x >= display_width) and (len(enemyGroup.sprites()) == 0):
+            break
+        elif (player.rect.x >= (display_width - player.size)) and (len(enemyGroup.sprites()) > 0):
+            player.rect.x = display_width - player.size
