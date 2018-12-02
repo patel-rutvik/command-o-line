@@ -4,10 +4,13 @@ import math
 import random
 ORANGE = (255, 165, 0)
 BLACK = (0, 0, 0)
+RED = (200, 0, 0)
+GREEN = (0, 200, 0)
 display_width, display_height = 2000, 1000
 char_size = int(display_width / 10)
 floor = int(display_height - (2 * char_size))
 ceiling = int((4*floor) / 9) 
+gameDisplay = pygame.display.set_mode((display_width, display_height))
 
 class Player(pygame.sprite.Sprite):
 
@@ -21,6 +24,8 @@ class Player(pygame.sprite.Sprite):
         self.facing = "right"
         self.shot = False
         self.canShoot = True
+        self.health = 100
+        self.ammo = 100
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -50,7 +55,7 @@ class Player(pygame.sprite.Sprite):
         if self.jumped == True:
             Player.gravity(self)
 
-        if click[0] and self.canShoot == True:
+        if click[0] and self.canShoot == True and self.ammo > 0:
             self.location = mouse
             self.shot = True
         if self.canShoot == False:
@@ -97,6 +102,13 @@ class Enemy(pygame.sprite.Sprite):
             self.rect.x = display_width
         if self.health <= 0:
             self.alive = False
+        Enemy.healthBar(self)
+
+
+    def healthBar(self):
+        tempInt = char_size / 100
+        pygame.draw.rect(gameDisplay, RED, ((self.rect.x, self.rect.y - 10, char_size, 15)))
+        pygame.draw.rect(gameDisplay, GREEN, ((self.rect.x, self.rect.y - 10, (char_size - tempInt*(100 - self.health)) , 15)))
 
 class Bullet(pygame.sprite.Sprite):
 
@@ -266,6 +278,12 @@ class ledgeEnemy(pygame.sprite.Sprite):
             self.rect.x = 1500
         if self.health <= 0:
             self.alive = False
+        ledgeEnemy.healthBar(self)
+
+    def healthBar(self):
+        tempInt = char_size / 100
+        pygame.draw.rect(gameDisplay, RED, ((self.rect.x, self.rect.y - 10, char_size, 15)))
+        pygame.draw.rect(gameDisplay, GREEN, ((self.rect.x, self.rect.y - 10, (char_size - tempInt*(100 - self.health)) , 15)))
 
 class Ledge(pygame.sprite.Sprite):
     def __init__(self):
@@ -276,5 +294,6 @@ class Ledge(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.y = floor - 300
         self.rect.x = display_width - 500
+
 
     

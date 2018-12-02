@@ -31,7 +31,7 @@ def playGame():
     levelCounter = 1
     #transition = True
     while play:     
-        menu_state = logic(background)
+        menu_state = logic(background, False, 0)
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -58,13 +58,15 @@ def playGame():
             play = False
 
 
-def logic(bkgd):
+def logic(bkgd, playing, level_count):
     gameDisplay.blit(bkgd, (0, 0))
+    back2menu = False
         
     if player.shot == True:
         bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing, player.location)
         bulletGroup.add(bullet)
         player.canShoot = False
+        player.ammo -= 1
     pygame.sprite.groupcollide(bulletGroup, ledgeGroup, True, False)
     hitList = pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
     for bull in hitList:
@@ -76,8 +78,6 @@ def logic(bkgd):
     for bullet in bulletGroup.sprites():
         if bullet.alive == False:
             bulletGroup.remove(bullet)
-    back2menu = False
-    back2menu = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
 
     #UPDATE
     playerGroup.update()
@@ -90,6 +90,22 @@ def logic(bkgd):
     enemyGroup.draw(gameDisplay)
     bulletGroup.draw(gameDisplay)
     ledgeGroup.draw(gameDisplay)
+
+    pygame.draw.rect(gameDisplay, black, ((0, 0), (display_width, display_height / 15)))
+    healthString = str("Health: " + str(player.health) + "/100")
+    ammoString = str("Ammo: " + str(player.ammo) + "/100")
+    displayText(healthString, 'fonts/Antonio-Regular.ttf', 30, 100, 30, white, 25)
+    displayText(ammoString , 'fonts/Antonio-Regular.ttf', 30, 500, 30, white, 25)
+
+    if playing:
+        enemyString = str('Enemies remaining: ' + str(len(enemyGroup.sprites())))
+        levelString = str('Level: ' + str(level_count))
+        displayText(enemyString, 'fonts/Antonio-Regular.ttf', 30, 1850, 30, white, 20)
+        displayText(levelString, 'fonts/Antonio-Regular.ttf', 40, display_width / 2, 30, white, 20)
+    else:
+        back2menu = False
+        back2menu = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
+
 
     pygame.display.update()
 
@@ -112,7 +128,8 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
     level_bkgd = pygame.transform.scale(level_bkgd, (2000, 1000))
     player.rect.x = 0
     while True:
-        logic(level_bkgd)
+        logic(level_bkgd, True, level_num)
+        #pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
