@@ -38,7 +38,7 @@ def playGame():
     levelCounter = 1
     #transition = True
     while play:     
-        menu_state = logic(background, False, 0)
+        menu_state = logic(background, False, levelCounter)
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -52,11 +52,13 @@ def playGame():
                 bulletGroup.empty()
                 level(1, levelCounter, 'images/light_background.png', False, 0)
             elif (levelCounter == 2):
-                level(2, levelCounter, 'images/medium_background.png', True, 1)
+                level(2, levelCounter, 'images/medium_background.png', False, 0)
             elif (levelCounter == 3):
-                level(2, levelCounter, 'images/city_background.png', True, 2)
+                level(1, levelCounter, 'images/city_background.png', True, 1)
             elif (levelCounter == 4):
-                level(3, levelCounter, 'images/misty_background.jpg', True, 3)
+                level(1, levelCounter, 'images/misty_background.jpg', True, 1)
+            elif (levelCounter == 5):
+                level(1, levelCounter, 'images/game_background.jpg', True, 1)
             levelCounter += 1
             player.rect.x = 0
             bulletGroup.empty()
@@ -85,7 +87,7 @@ def logic(bkgd, playing, level_count):
         for bullet in bulletGroup.sprites():
             if bullet.alive == False:
                 bulletGroup.remove(bullet)
-    
+
 
     #UPDATE
     playerGroup.update()
@@ -115,7 +117,7 @@ def logic(bkgd, playing, level_count):
         displayText(enemyString, 'fonts/Antonio-Regular.ttf', 30, 1850, 30, white, 20)
         displayText(levelString, 'fonts/Antonio-Regular.ttf', 40, display_width / 2, 30, white, 20)
     else:
-        startString = str('Level ' + str(level_count + 1))
+        startString = str('Level ' + str(level_count))
         displayText(startString, 'fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
         gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
         gameDisplay.blit(merchant, (3*display_width / 5, characters.floor))
