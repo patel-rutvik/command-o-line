@@ -10,7 +10,7 @@ PURPLE = (200, 0, 200)
 display_width, display_height = 2000, 1000
 char_size = int(display_width / 10)
 floor = int(display_height - (2 * char_size))
-ceiling = int((4*floor) / 9) 
+ceiling = int((5*floor) / 9) 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 
 class Player(pygame.sprite.Sprite):
@@ -364,4 +364,34 @@ class Ledge(pygame.sprite.Sprite):
         self.rect.x = display_width - 500
 
 
-    
+class pickUp(pygame.sprite.Sprite):
+    def __init__(self, image, x, y, pickType, player):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = x
+        self.type = pickType
+        self.collide = False
+        self.player = player
+        self.canPickup = True
+
+    def update(self):
+        if self.collide and self.canPickup:
+            if (self.type == "health"):
+                self.player.health = 100
+                self.collide = False
+            elif (self.type == "ammo"):
+                self.player.ammo = 100
+                self.collide = False
+            elif (self.type == "both"):
+                self.player.health += self.player.health / 2
+                self.player.ammo += self.player.ammo / 2
+                if self.player.health >= 100:
+                    self.player.health = 100
+                if self.player.ammo >= 100:
+                    self.player.ammo = 100
+                self.collide = False
+
+            self.canPickup = False
+
