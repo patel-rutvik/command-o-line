@@ -20,6 +20,7 @@ background = pygame.transform.scale(background, (2000, 1000))
 arrow = pygame.image.load('images/arrow.png')
 arrow = pygame.transform.scale(arrow, (150, 100))
 stand = pygame.image.load('images/stand.png')
+stand = pygame.transform.scale(stand, (500,500))
 merchant = pygame.image.load('images/merchant.png')
 merchant = pygame.transform.scale(merchant, (125, 200))
 
@@ -87,6 +88,10 @@ def logic(bkgd, playing, level_count):
         for bullet in bulletGroup.sprites():
             if bullet.alive == False:
                 bulletGroup.remove(bullet)
+    else:
+        gameDisplay.blit(merchant, (3*display_width / 5, characters.floor))
+        gameDisplay.blit(stand, (display_width / 3, characters.floor - 300))
+
 
 
     #UPDATE
@@ -120,9 +125,6 @@ def logic(bkgd, playing, level_count):
         startString = str('Level ' + str(level_count))
         displayText(startString, 'fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
         gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
-        gameDisplay.blit(merchant, (3*display_width / 5, characters.floor))
-        gameDisplay.blit(stand, (display_width / 3, characters.floor - 300))
-        displayText("STORE", 'fonts/Antonio-Bold.ttf', 100, (display_width / 3) + 250, characters.floor - 200, white, 25)
         back2menu = False
         back2menu = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
 
