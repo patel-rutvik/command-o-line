@@ -6,6 +6,7 @@ ORANGE = (255, 165, 0)
 BLACK = (0, 0, 0)
 RED = (200, 0, 0)
 GREEN = (0, 200, 0)
+PURPLE = (200, 0, 200)
 display_width, display_height = 2000, 1000
 char_size = int(display_width / 10)
 floor = int(display_height - (2 * char_size))
@@ -26,6 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.canShoot = True
         self.health = 100
         self.ammo = 100
+        self.alive = True
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -80,8 +82,10 @@ class Player(pygame.sprite.Sprite):
     def gravity(self):
         self.rect.y += (display_height / 100) * 4
 
-
-
+    def alive(self):
+        if self.health <= 0:
+            self.alive = False
+            print("The player is dead")
 
 class Enemy(pygame.sprite.Sprite):
 
@@ -95,20 +99,31 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = random.randint(1200, display_width + (4*char_size))
         self.health = 100
         self.alive = True
+        self.shot = False
+        self.lastFire = pygame.time.get_ticks()
+        self.cooldown = 3000
+        self.facing = "left"
 
     def update(self):
         self.rect.x -= 9
-        if self.rect.x == 0 - char_size:
-            self.rect.x = display_width
+        if self.rect.x <= (3*display_width/5):
+            self.rect.x = (3*display_width/5)
         if self.health <= 0:
             self.alive = False
         Enemy.healthBar(self)
+        Enemy.shoot(self)
 
 
     def healthBar(self):
         tempInt = char_size / 100
         pygame.draw.rect(gameDisplay, RED, ((self.rect.x, self.rect.y - 10, char_size, 15)))
         pygame.draw.rect(gameDisplay, GREEN, ((self.rect.x, self.rect.y - 10, (char_size - tempInt*(100 - self.health)) , 15)))
+
+    def shoot(self):
+        presentTime = pygame.time.get_ticks()
+        if (presentTime - self.lastFire) >= self.cooldown:
+            self.lastFire = presentTime
+            self.shot = True
 
 class Bullet(pygame.sprite.Sprite):
 
@@ -159,11 +174,11 @@ class Bullet(pygame.sprite.Sprite):
 
 class enemyBullet(pygame.sprite.Sprite):
 
-        def __init__(self, player_x, player_y, facing, enemy_x, enemy_y):
+    def __init__(self, player_x, player_y, facing, enemy_x, enemy_y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((2,2))
         self.image = pygame.transform.scale(self.image, (int(char_size/20), int(char_size/20)))
-        self.image.fill(ORANGE)
+        self.image.fill(PURPLE)
         self.rect = self.image.get_rect()
         self.rect.y = enemy_y + (char_size/3)
         if facing == "right":
@@ -180,16 +195,20 @@ class enemyBullet(pygame.sprite.Sprite):
         self.speed = 45
 
     def update(self):
-        Xspeed, Yspeed = Bullet.calc(self)
-        self.rect.x += Xspeed
-        self.rect.y += Yspeed
+        Xspeed, Yspeed = enemyBullet.calc(self)
+        if (self.player_x < self.originX):
+            self.rect.x -= Xspeed
+            self.rect.y -= Yspeed
+        elif(self.player_x > self.originX):
+            self.rect.x += Xspeed
+            self.rect.y += Yspeed
 
         if self.rect.x > display_width or self.rect.x < 0 or self.rect.y < 0 or self.rect.y > display_height:
             self.alive = False
 
     def calc(self):
         deltaX = self.player_x - self.originX + 0.0001
-        deltaY = self.player_y - self.originY
+        deltaY = self.player_y + (char_size/2) - self.originY
         theta = math.atan(deltaY/deltaX)
         Xspeed = self.speed * math.cos(theta)
         Yspeed = self.speed * math.sin(theta)
@@ -307,6 +326,10 @@ class ledgeEnemy(pygame.sprite.Sprite):
         self.health = 100
         self.alive = True
         self.ledge_reached = False
+        self.shot = False
+        self.lastFire = pygame.time.get_ticks()
+        self.cooldown = 3000
+        self.facing = "left"
 
     def update(self):
         if self.ledge_reached == False:
@@ -317,11 +340,18 @@ class ledgeEnemy(pygame.sprite.Sprite):
         if self.health <= 0:
             self.alive = False
         ledgeEnemy.healthBar(self)
+        ledgeEnemy.shoot(self)
 
     def healthBar(self):
         tempInt = char_size / 100
         pygame.draw.rect(gameDisplay, RED, ((self.rect.x, self.rect.y - 10, char_size, 15)))
         pygame.draw.rect(gameDisplay, GREEN, ((self.rect.x, self.rect.y - 10, (char_size - tempInt*(100 - self.health)) , 15)))
+
+    def shoot(self):
+        presentTime = pygame.time.get_ticks()
+        if (presentTime - self.lastFire) >= self.cooldown and self.rect.x < display_width:
+            self.lastFire = presentTime
+            self.shot = True
 
 class Ledge(pygame.sprite.Sprite):
     def __init__(self):

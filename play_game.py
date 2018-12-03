@@ -31,6 +31,7 @@ playerGroup.add(player)
 enemyGroup = pygame.sprite.Group()
 bulletGroup = pygame.sprite.Group()
 ledgeGroup = pygame.sprite.Group()
+enemyBulletGroup = pygame.sprite.Group()
 keys = pygame.key.get_pressed()
 
 
@@ -51,6 +52,7 @@ def playGame():
         if (player.rect.x > display_width):
             if (levelCounter == 1):
                 bulletGroup.empty()
+                enemyBulletGroup.empty()
                 level(1, levelCounter, 'images/light_background.png', False, 0)
             elif (levelCounter == 2):
                 level(2, levelCounter, 'images/medium_background.png', False, 0)
@@ -64,6 +66,7 @@ def playGame():
             player.rect.x = 0
             bulletGroup.empty()
             ledgeGroup.empty()
+            enemyBulletGroup.empty()
         if menu_state == True:
             play = False
 
@@ -83,11 +86,18 @@ def logic(bkgd, playing, level_count):
             for enmy in hitList[bull]:
                 enmy.health -= bull.damage
         for enemy in enemyGroup.sprites():
+            if enemy.shot == True:
+                enemyBullet = characters.enemyBullet(player.rect.x, player.rect.y, enemy.facing, enemy.rect.x, enemy.rect.y)
+                enemyBulletGroup.add(enemyBullet)
+                enemy.shot = False
             if enemy.alive == False:
                 enemy.remove(enemyGroup)
         for bullet in bulletGroup.sprites():
             if bullet.alive == False:
                 bulletGroup.remove(bullet)
+        if pygame.sprite.groupcollide(enemyBulletGroup, playerGroup, True, False):
+            player.health -= 10
+
     else:
         gameDisplay.blit(merchant, (3*display_width / 5, characters.floor))
         gameDisplay.blit(stand, (display_width / 3, characters.floor - 300))
@@ -99,12 +109,14 @@ def logic(bkgd, playing, level_count):
     enemyGroup.update()
     bulletGroup.update()
     ledgeGroup.update()
+    enemyBulletGroup.update()
 
     #DRAW
     playerGroup.draw(gameDisplay)
     enemyGroup.draw(gameDisplay)
     bulletGroup.draw(gameDisplay)
     ledgeGroup.draw(gameDisplay)
+    enemyBulletGroup.draw(gameDisplay)
 
     pygame.draw.rect(gameDisplay, black, ((0, 0), (display_width, display_height / 15)))
     healthString = str("Health: " + str(player.health) + "/100")
