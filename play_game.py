@@ -68,23 +68,24 @@ def playGame():
 def logic(bkgd, playing, level_count):
     gameDisplay.blit(bkgd, (0, 0))
     back2menu = False
-        
-    if player.shot == True:
-        bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing, player.location)
-        bulletGroup.add(bullet)
-        player.canShoot = False
-        player.ammo -= 1
-    pygame.sprite.groupcollide(bulletGroup, ledgeGroup, True, False)
-    hitList = pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
-    for bull in hitList:
-        for enmy in hitList[bull]:
-            enmy.health -= bull.damage
-    for enemy in enemyGroup.sprites():
-        if enemy.alive == False:
-            enemy.remove(enemyGroup)
-    for bullet in bulletGroup.sprites():
-        if bullet.alive == False:
-            bulletGroup.remove(bullet)
+    if playing:
+        if player.shot == True:
+            bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing, player.location)
+            bulletGroup.add(bullet)
+            player.canShoot = False
+            player.ammo -= 1
+        pygame.sprite.groupcollide(bulletGroup, ledgeGroup, True, False)
+        hitList = pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
+        for bull in hitList:
+            for enmy in hitList[bull]:
+                enmy.health -= bull.damage
+        for enemy in enemyGroup.sprites():
+            if enemy.alive == False:
+                enemy.remove(enemyGroup)
+        for bullet in bulletGroup.sprites():
+            if bullet.alive == False:
+                bulletGroup.remove(bullet)
+    
 
     #UPDATE
     playerGroup.update()
