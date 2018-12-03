@@ -13,8 +13,15 @@ hoveryellow = (200, 200, 0)
 display_width, display_height = 2000, 1000
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
+
+
 background = pygame.image.load('images/game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
+arrow = pygame.image.load('images/arrow.png')
+arrow = pygame.transform.scale(arrow, (150, 100))
+stand = pygame.image.load('images/stand.png')
+merchant = pygame.image.load('images/merchant.png')
+merchant = pygame.transform.scale(merchant, (125, 200))
 
 
 playerGroup = pygame.sprite.Group()
@@ -98,11 +105,21 @@ def logic(bkgd, playing, level_count):
     displayText(ammoString , 'fonts/Antonio-Regular.ttf', 30, 500, 30, white, 25)
 
     if playing:
+        if (len(enemyGroup.sprites()) == 0):
+            displayText("LEVEL COMPLETE", 'fonts/Antonio-Bold.ttf', 75, display_width / 2, display_height / 4, black, 50)
+            displayText("Next stage", 'fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
+            gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
         enemyString = str('Enemies remaining: ' + str(len(enemyGroup.sprites())))
         levelString = str('Level: ' + str(level_count))
         displayText(enemyString, 'fonts/Antonio-Regular.ttf', 30, 1850, 30, white, 20)
         displayText(levelString, 'fonts/Antonio-Regular.ttf', 40, display_width / 2, 30, white, 20)
     else:
+        startString = str('Level ' + str(level_count + 1))
+        displayText(startString, 'fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
+        gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
+        gameDisplay.blit(merchant, (3*display_width / 5, characters.floor))
+        gameDisplay.blit(stand, (display_width / 3, characters.floor - 300))
+        displayText("STORE", 'fonts/Antonio-Bold.ttf', 100, (display_width / 3) + 250, characters.floor - 200, white, 25)
         back2menu = False
         back2menu = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
 
