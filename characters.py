@@ -157,6 +157,44 @@ class Bullet(pygame.sprite.Sprite):
         Yspeed = self.speed * math.sin(theta)
         return Xspeed, Yspeed
 
+class enemyBullet(pygame.sprite.Sprite):
+
+        def __init__(self, player_x, player_y, facing, enemy_x, enemy_y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((2,2))
+        self.image = pygame.transform.scale(self.image, (int(char_size/20), int(char_size/20)))
+        self.image.fill(ORANGE)
+        self.rect = self.image.get_rect()
+        self.rect.y = enemy_y + (char_size/3)
+        if facing == "right":
+            self.rect.x = enemy_x + (8*char_size/9)
+        if facing == "left":
+            self.rect.x = enemy_x
+        self.facing = facing
+        self.damage = 10
+        self.alive = True
+        self.player_x = player_x
+        self.player_y = player_y
+        self.originX = self.rect.x
+        self.originY = self.rect.y
+        self.speed = 45
+
+    def update(self):
+        Xspeed, Yspeed = Bullet.calc(self)
+        self.rect.x += Xspeed
+        self.rect.y += Yspeed
+
+        if self.rect.x > display_width or self.rect.x < 0 or self.rect.y < 0 or self.rect.y > display_height:
+            self.alive = False
+
+    def calc(self):
+        deltaX = self.player_x - self.originX + 0.0001
+        deltaY = self.player_y - self.originY
+        theta = math.atan(deltaY/deltaX)
+        Xspeed = self.speed * math.cos(theta)
+        Yspeed = self.speed * math.sin(theta)
+        return Xspeed, Yspeed
+
 class menugoodGuy(pygame.sprite.Sprite):
 
     def __init__(self):
