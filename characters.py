@@ -64,6 +64,7 @@ class Player(pygame.sprite.Sprite):
             self.shot = False
         if click[0] == False:
             self.canShoot = True
+        Player.alive(self)
 
     def flipIt(self):
         self.image = pygame.transform.flip(self.image, True, False)
@@ -85,7 +86,6 @@ class Player(pygame.sprite.Sprite):
     def alive(self):
         if self.health <= 0:
             self.alive = False
-            print("The player is dead")
 
 class Enemy(pygame.sprite.Sprite):
 
@@ -207,7 +207,7 @@ class enemyBullet(pygame.sprite.Sprite):
             self.alive = False
 
     def calc(self):
-        deltaX = self.player_x - self.originX + 0.0001
+        deltaX = self.player_x - self.originX + char_size/2 + 0.0001
         deltaY = self.player_y + (char_size/2) - self.originY
         theta = math.atan(deltaY/deltaX)
         Xspeed = self.speed * math.cos(theta)

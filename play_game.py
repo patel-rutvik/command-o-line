@@ -49,6 +49,7 @@ pickupGroup = pygame.sprite.Group()
 def playGame():
     play = True
     levelCounter = 1
+    temp_play = None
     #transition = True
     while play:     
         menu_state = logic(background, False, levelCounter)
@@ -64,21 +65,23 @@ def playGame():
                 bulletGroup.empty()
                 enemyBulletGroup.empty()
                 pickupGroup.empty()
-                level(1, levelCounter, 'images/light_background.png', False, 0)
+                temp_play = level(1, levelCounter, 'images/light_background.png', False, 0)
             elif (levelCounter == 2):
-                level(2, levelCounter, 'images/medium_background.png', False, 0)
+                temp_play = level(2, levelCounter, 'images/medium_background.png', False, 0)
             elif (levelCounter == 3):
-                level(1, levelCounter, 'images/city_background.png', True, 1)
+                temp_play = level(1, levelCounter, 'images/city_background.png', True, 1)
             elif (levelCounter == 4):
-                level(1, levelCounter, 'images/misty_background.jpg', True, 1)
+                temp_play = level(1, levelCounter, 'images/misty_background.jpg', True, 1)
             elif (levelCounter == 5):
-                level(1, levelCounter, 'images/game_background.jpg', True, 1)
+                temp_play = level(1, levelCounter, 'images/game_background.jpg', True, 1)
             levelCounter += 1
             player.rect.x = 0
             bulletGroup.empty()
             ledgeGroup.empty()
             enemyBulletGroup.empty()
             pickupGroup.empty()
+        if temp_play == None:
+            play = True
         if menu_state == True:
             play = False
 
@@ -185,6 +188,7 @@ def logic(bkgd, playing, level_count):
 
 
 def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
+    gameOver = False
     for i in range(num_enemy):
         enemy = characters.Enemy()
         enemyGroup.add(enemy)
@@ -210,3 +214,19 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
             break
         elif (player.rect.x >= (display_width - player.size)) and (len(enemyGroup.sprites()) > 0):
             player.rect.x = display_width - player.size
+        if not player.alive:
+            playerGroup.empty()
+            enemyGroup.empty()
+            break
+    if not player.alive:
+        while True:
+            keys = pygame.key.get_pressed()
+            displayText("GAME OVER", 'fonts/Antonio-Bold.ttf', 75, display_width / 2, display_height / 4, black, 50)
+            displayText("Press M to return to the main menu", 'fonts/Antonio-Bold.ttf', 50, display_width / 2, display_height / 3, black, 50)
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_m:
+                        break
+        return False
+
