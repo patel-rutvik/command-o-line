@@ -96,7 +96,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
         self.rect.y = floor
-        self.rect.x = random.randint(1200, display_width + (4*char_size))
+        self.rect.x = random.randint(display_width, display_width+500)
         self.health = 100
         self.alive = True
         self.shot = False
@@ -104,10 +104,14 @@ class Enemy(pygame.sprite.Sprite):
         self.cooldown = 3000
         self.facing = "left"
         self.speed = -9
+        self.onScreen = False
 
     def update(self):
         self.rect.x += self.speed
-        if self.rect.x <= 0 or self.rect.x >= display_width - char_size:
+        if self.rect.x > 0 and self.rect.x < display_width - char_size:
+            self.onScreen = True
+        if (self.rect.x < 0 or self.rect.x > display_width) and self.onScreen:
+            self.shot = False
             self.speed = self.speed *-1
             if self.facing == "left":
                 Enemy.flip(self)
@@ -118,7 +122,8 @@ class Enemy(pygame.sprite.Sprite):
         if self.health <= 0:
             self.alive = False
         Enemy.healthBar(self)
-        Enemy.shoot(self)
+        if self.onScreen:
+            Enemy.shoot(self)
 
 
     def healthBar(self):
