@@ -50,7 +50,6 @@ def playGame():
     play = True
     levelCounter = 1
     temp_play = None
-    #transition = True
     while play:     
         menu_state = logic(background, False, levelCounter)
         for event in pygame.event.get():
@@ -132,14 +131,18 @@ def logic(bkgd, playing, level_count):
             displayText("50% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, characters.floor - 240, black, 10)
             displayText("50% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, characters.floor - 200, black, 10)
 
-            health_pickup = characters.pickUp(heart, display_width / 2 - 700, characters.floor - 200, "health", player)
-            ammo_pickup = characters.pickUp(ammo_pic, display_width / 2 - 400, characters.floor - 200, "ammo", player)
-            both_pickup = characters.pickUp(half_heart, display_width / 2 - 110, characters.floor - 170, "both", player)
-            pickupGroup.add(health_pickup, ammo_pickup, both_pickup)
+            if pickupGroup.sprites() == []:
+                health_pickup = characters.pickUp(heart, display_width / 2 - 700, characters.floor - 200, "health", player)
+                ammo_pickup = characters.pickUp(ammo_pic, display_width / 2 - 400, characters.floor - 200, "ammo", player)
+                both_pickup = characters.pickUp(half_heart, display_width / 2 - 110, characters.floor - 170, "both", player)
+                pickupGroup.add(health_pickup, ammo_pickup, both_pickup)
 
             sprite = pygame.sprite.spritecollideany(player, pickupGroup)
-            if sprite != None:
+            if sprite != None and len(pickupGroup.sprites()) == 3:
                 sprite.collide = True
+                pickupGroup.update()
+                pygame.sprite.groupcollide(pickupGroup, playerGroup, True, False)
+
         elif level_count == 5:
             pickupGroup.empty()
             gameDisplay.blit(bubble, ((3*display_width / 5) + 300, characters.floor - 290))

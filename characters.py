@@ -393,10 +393,9 @@ class pickUp(pygame.sprite.Sprite):
         self.type = pickType
         self.collide = False
         self.player = player
-        self.canPickup = True
 
     def update(self):
-        if self.collide and self.canPickup:
+        if self.collide:
             if (self.type == "health"):
                 self.player.health = 100
                 self.collide = False
@@ -410,7 +409,4 @@ class pickUp(pygame.sprite.Sprite):
                     self.player.health = 100
                 if self.player.ammo >= 100:
                     self.player.ammo = 100
-                self.collide = False
-
-            self.canPickup = False
 
