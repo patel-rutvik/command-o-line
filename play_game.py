@@ -123,13 +123,13 @@ def logic(bkgd, playing, level_count):
             displayText("You can only pick one...", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
             displayText("Jump to select.", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
 
-            displayText("100% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, characters.floor - 230, black, 10)
+            #displayText("100% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, characters.floor - 230, black, 10)
 
-            displayText("100% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, characters.floor - 230, black, 10)
+            #displayText("100% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, characters.floor - 230, black, 10)
 
-            gameDisplay.blit(small_ammo, (display_width / 2 - 50, characters.floor - 170))
-            displayText("50% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, characters.floor - 240, black, 10)
-            displayText("50% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, characters.floor - 200, black, 10)
+            #gameDisplay.blit(small_ammo, (display_width / 2 - 50, characters.floor - 170))
+            #displayText("50% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, characters.floor - 240, black, 10)
+            #displayText("50% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, characters.floor - 200, black, 10)
 
             if pickupGroup.sprites() == []:
                 health_pickup = characters.pickUp(heart, display_width / 2 - 700, characters.floor - 200, "health", player)
@@ -142,6 +142,7 @@ def logic(bkgd, playing, level_count):
                 sprite.collide = True
                 pickupGroup.update()
                 pygame.sprite.groupcollide(pickupGroup, playerGroup, True, False)
+
 
         elif level_count == 5:
             pickupGroup.empty()
