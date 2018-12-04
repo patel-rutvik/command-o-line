@@ -50,6 +50,12 @@ pickupGroup = pygame.sprite.Group()
 
 
 def playGame():
+    if len(playerGroup.sprites()) == 0:
+        playerGroup.add(player)
+        if player.facing == "left":
+            player.flipIt()
+            player.facing = "right"
+    player.alive = True
     play = True
     levelCounter = 1
     temp_play = None
