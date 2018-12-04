@@ -113,7 +113,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x += self.speed
         if self.rect.x > 0 and self.rect.x < display_width - char_size:
             self.onScreen = True
-        if (self.rect.x < 0 or self.rect.x > display_width) and self.onScreen:
+        if (self.rect.x < 0 or self.rect.x > display_width - char_size) and self.onScreen:
             self.shot = False
             self.speed = self.speed *-1
             if self.facing == "left":
@@ -157,7 +157,7 @@ class Bullet(pygame.sprite.Sprite):
         if facing == "left":
             self.rect.x = player_x
         self.facing = facing
-        self.damage = 10
+        self.damage = 100
         self.alive = True
         self.location = location
         self.originX = self.rect.x
@@ -340,7 +340,7 @@ class ledgeEnemy(pygame.sprite.Sprite):
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
         self.rect.y = floor - 500
-        self.rect.x = random.randint(1500 - char_size, display_width + (4*char_size))
+        self.rect.x = random.randint(1500, display_width + (4*char_size))
         self.health = 100
         self.alive = True
         self.ledge_reached = False
