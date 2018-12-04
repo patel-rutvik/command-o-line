@@ -103,11 +103,18 @@ class Enemy(pygame.sprite.Sprite):
         self.lastFire = pygame.time.get_ticks()
         self.cooldown = 3000
         self.facing = "left"
+        self.speed = -9
 
     def update(self):
-        self.rect.x -= 9
-        if self.rect.x <= (3*display_width/5):
-            self.rect.x = (3*display_width/5)
+        self.rect.x += self.speed
+        if self.rect.x <= 0 or self.rect.x >= display_width - char_size:
+            self.speed = self.speed *-1
+            if self.facing == "left":
+                Enemy.flip(self)
+                self.facing = "right"
+            elif self.facing == "right":
+                Enemy.flip(self)
+                self.facing = "left"
         if self.health <= 0:
             self.alive = False
         Enemy.healthBar(self)
@@ -124,6 +131,9 @@ class Enemy(pygame.sprite.Sprite):
         if (presentTime - self.lastFire) >= self.cooldown:
             self.lastFire = presentTime
             self.shot = True
+
+    def flip(self):
+        self.image = pygame.transform.flip(self.image, True, False)
 
 class Bullet(pygame.sprite.Sprite):
 
