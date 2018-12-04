@@ -157,7 +157,7 @@ class Bullet(pygame.sprite.Sprite):
         if facing == "left":
             self.rect.x = player_x
         self.facing = facing
-        self.damage = 100
+        self.damage = 10
         self.alive = True
         self.location = location
         self.originX = self.rect.x
@@ -420,6 +420,6 @@ class pickUp(pygame.sprite.Sprite):
                 self.player.ammo += 25
             if self.player.health >= 100:
                 self.player.health = 100
-            if self.player.ammo >= 100:
-                self.player.ammo = 100
+            if self.player.ammo >= 300:
+                self.player.ammo = 300
 
