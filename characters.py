@@ -349,15 +349,16 @@ class ledgeEnemy(pygame.sprite.Sprite):
         self.cooldown = 3000
         self.facing = "left"
         self.onScreen = False
+        self.speed = -9
 
     def update(self):
-        if self.rect.x < display_width - char_size:
+        self.rect.x += self.speed
+        if self.rect.x > 0 and self.rect.x < display_width - char_size:
             self.onScreen = True
-        if self.ledge_reached == False:
-            self.rect.x -= 9
-        if self.rect.x <= 1500:
-            self.ledge_reached = True
-            self.rect.x = 1500
+        if (self.rect.x < 1500 or self.rect.x > display_width - char_size) and self.onScreen:
+            self.shot = False
+            self.speed = self.speed *-1
+
         if self.health <= 0:
             self.alive = False
         ledgeEnemy.healthBar(self)
@@ -399,26 +400,26 @@ class pickUp(pygame.sprite.Sprite):
 
     def update(self):
         if self.type == "health":
-            displayText("100% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, floor - 230, BLACK, 10)
+            displayText("Big Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, floor - 230, BLACK, 10)
         elif self.type == "ammo":
-            displayText("100% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, floor - 230, BLACK, 10)
+            displayText("Big Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, floor - 230, BLACK, 10)
         elif self.type == "both":
             gameDisplay.blit(small_ammo, (display_width / 2 - 50, floor - 170))
-            displayText("50% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 240, BLACK, 10)
-            displayText("50% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 200, BLACK, 10)
+            displayText("Small Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 240, BLACK, 10)
+            displayText("Small Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 200, BLACK, 10)
 
         if self.collide:
             if (self.type == "health"):
-                self.player.health = 100
+                self.player.health += 50
                 self.collide = False
             elif (self.type == "ammo"):
-                self.player.ammo = 100
+                self.player.ammo += 50
                 self.collide = False
             elif (self.type == "both"):
-                self.player.health += math.floor(self.player.health / 2)
-                self.player.ammo += math.floor(self.player.ammo / 2)
-                if self.player.health >= 100:
-                    self.player.health = 100
-                if self.player.ammo >= 100:
-                    self.player.ammo = 100
+                self.player.health += 25
+                self.player.ammo += 25
+            if self.player.health >= 100:
+                self.player.health = 100
+            if self.player.ammo >= 100:
+                self.player.ammo = 100
 
