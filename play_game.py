@@ -80,9 +80,7 @@ def playGame():
             ledgeGroup.empty()
             enemyBulletGroup.empty()
             pickupGroup.empty()
-        if temp_play == None:
-            play = True
-        if menu_state == True:
+        if temp_play == False or menu_state == True:
             play = False
 
 
@@ -117,28 +115,37 @@ def logic(bkgd, playing, level_count):
         gameDisplay.blit(merchant, (3*display_width / 5 + 400, characters.floor - 50))
         gameDisplay.blit(stand, (display_width / 3 + 400, characters.floor - 300))
         gameDisplay.blit(bubble, ((3*display_width / 5) + 300, characters.floor - 290))
-        displayText("Take a step into my shop!", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
-        displayText("You can only pick one!", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
-        displayText("Jump to select.", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
-        displayText("100% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, characters.floor - 330, black, 10)
+        if level_count == 1:
+            displayText("This is where you can restock!", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
+            displayText("Come back later to take", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
+            displayText("a look at my merchandise.", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
+        elif level_count > 1:
+            displayText("Take a step into my shop!", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
+            displayText("You can only pick one...", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
+            displayText("Jump to select.", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
 
-        displayText("100% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, characters.floor - 330, black, 10)
+            displayText("100% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, characters.floor - 230, black, 10)
 
-        gameDisplay.blit(small_ammo, (display_width / 2 - 50, characters.floor - 270))
-        displayText("50% Health and Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, characters.floor - 330, black, 10)
+            displayText("100% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, characters.floor - 230, black, 10)
 
-        health_pickup = characters.pickUp(heart, display_width / 2 - 700, characters.floor - 300, "health", player)
-        ammo_pickup = characters.pickUp(ammo_pic, display_width / 2 - 400, characters.floor - 300, "ammo", player)
-        both_pickup = characters.pickUp(half_heart, display_width / 2 - 110, characters.floor - 270, "both", player)
-        pickupGroup.add(health_pickup, ammo_pickup, both_pickup)
+            gameDisplay.blit(small_ammo, (display_width / 2 - 50, characters.floor - 170))
+            displayText("50% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, characters.floor - 240, black, 10)
+            displayText("50% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, characters.floor - 200, black, 10)
 
-        sprite = pygame.sprite.spritecollideany(player, pickupGroup)
-        if sprite != None:
-            sprite.collide = True
-            
+            health_pickup = characters.pickUp(heart, display_width / 2 - 700, characters.floor - 200, "health", player)
+            ammo_pickup = characters.pickUp(ammo_pic, display_width / 2 - 400, characters.floor - 200, "ammo", player)
+            both_pickup = characters.pickUp(half_heart, display_width / 2 - 110, characters.floor - 170, "both", player)
+            pickupGroup.add(health_pickup, ammo_pickup, both_pickup)
 
-
-
+            sprite = pygame.sprite.spritecollideany(player, pickupGroup)
+            if sprite != None:
+                sprite.collide = True
+        elif level_count == 5:
+            pickupGroup.empty()
+            gameDisplay.blit(bubble, ((3*display_width / 5) + 300, characters.floor - 290))
+            displayText("Wow, you killed them all!", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
+            displayText("I have nothing left to sell...", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
+            displayText("I am not worthy.", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
 
     #UPDATE
     pickupGroup.update()
@@ -222,7 +229,7 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
         while True:
             keys = pygame.key.get_pressed()
             displayText("GAME OVER", 'fonts/Antonio-Bold.ttf', 75, display_width / 2, display_height / 4, black, 50)
-            displayText("Press M to return to the main menu", 'fonts/Antonio-Bold.ttf', 50, display_width / 2, display_height / 3, black, 50)
+            displayText("Press M to return to the menu", 'fonts/Antonio-Bold.ttf', 50, display_width / 2, display_height / 3, black, 50)
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
