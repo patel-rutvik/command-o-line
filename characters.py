@@ -345,8 +345,11 @@ class ledgeEnemy(pygame.sprite.Sprite):
         self.lastFire = pygame.time.get_ticks()
         self.cooldown = 3000
         self.facing = "left"
+        self.onScreen = False
 
     def update(self):
+        if self.rect.x < display_width - char_size:
+            self.onScreen = True
         if self.ledge_reached == False:
             self.rect.x -= 9
         if self.rect.x <= 1500:
@@ -355,7 +358,8 @@ class ledgeEnemy(pygame.sprite.Sprite):
         if self.health <= 0:
             self.alive = False
         ledgeEnemy.healthBar(self)
-        ledgeEnemy.shoot(self)
+        if self.onScreen:
+            ledgeEnemy.shoot(self)
 
     def healthBar(self):
         tempInt = char_size / 100
@@ -400,8 +404,8 @@ class pickUp(pygame.sprite.Sprite):
                 self.player.ammo = 100
                 self.collide = False
             elif (self.type == "both"):
-                self.player.health += self.player.health / 2
-                self.player.ammo += self.player.ammo / 2
+                self.player.health += math.floor(self.player.health / 2)
+                self.player.ammo += math.floor(self.player.ammo / 2)
                 if self.player.health >= 100:
                     self.player.health = 100
                 if self.player.ammo >= 100:
