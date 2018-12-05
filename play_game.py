@@ -43,6 +43,7 @@ bulletGroup = pygame.sprite.Group()
 ledgeGroup = pygame.sprite.Group()
 enemyBulletGroup = pygame.sprite.Group()
 pickupGroup = pygame.sprite.Group()
+boss = characters.bossGuy()
 
 
 
@@ -58,9 +59,9 @@ def playGame():
     temp_play = None
     player.health = 100
     player.ammo = 100
-    enemies = [[[1, 2 ,3 ,4 ,5], [0, 0, 1, 1, 1]], [[1, 2, 3, 5, 5], [0, 0, 1, 2, 2]], [[1, 2, 4, 5, 6], [0, 0, 1, 3, 5]]]
-    backgrounds = ['images/light_background.png', 'images/medium_background.png', 'images/city_background.png', 'images/misty_background.jpg', 'images/game_background.jpg']
-    ledges = [False, False, True, True, True]
+    enemies = [[[1, 2 ,2 ,3 ,3, 0], [0, 0, 1, 1, 1, 0]], [[1, 3, 3, 3, 4, 0], [0, 0, 1, 2, 2, 0]], [[1, 2, 3, 4, 4, 0], [0, 0, 1, 3, 4, 0]]]
+    backgrounds = ['images/light_background.png', 'images/medium_background.png', 'images/city_background.png', 'images/misty_background.jpg', 'images/game_background.jpg', 'images/game_background.jpg']
+    ledges = [False, False, True, True, True, False]
     button_size = int((display_width / display_height) * 25)
     pressed = False
     difficulty = [None, None, None]
@@ -105,7 +106,7 @@ def playGame():
                     return True
             # IF the level counter > 1 then add pick ups
             if (player.rect.x > display_width):
-                temp_play = levelSelect(difficulty, levelCounter, enemies, backgrounds, ledges)
+                temp_play = levelMaker(difficulty, levelCounter, enemies, backgrounds, ledges)
                 levelCounter += 1
                 player.rect.x = 0
                 bulletGroup.empty()
@@ -134,7 +135,7 @@ def logic(bkgd, playing, level_count):
         displayText(enemyString, 'fonts/Antonio-Regular.ttf', 30, 1850, 30, white, 20)
         displayText(levelString, 'fonts/Antonio-Regular.ttf', 40, display_width / 2, 30, white, 20)
         if (len(enemyGroup.sprites()) == 0):
-            displayText("LEVEL COMPLETE", 'fonts/Antonio-Bold.ttf', 75, display_width / 2, display_height / 4, black, 50)
+            displayText("LEVEL COMPLETE", 'fonts/Antonio-Bold.ttf', 125, display_width / 2, display_height / 4, black, 50)
             displayText("Next stage", 'fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
             gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
         if player.shot == True:
@@ -159,6 +160,10 @@ def logic(bkgd, playing, level_count):
                 bulletGroup.remove(bullet)
         if pygame.sprite.groupcollide(enemyBulletGroup, playerGroup, True, False):
             player.health -= 10
+        if level_count == 6:
+            boss.add(enemyGroup)
+            if boss.health <= 0:
+                enemyGroup.empty()
 
     #THINGS THAT HAPPEN WHEN NOT PLAYING
     else:
@@ -191,11 +196,18 @@ def logic(bkgd, playing, level_count):
         elif level_count == 6:
             pickupGroup.empty()
             gameDisplay.blit(bubble, ((3*display_width / 5) + 300, characters.floor - 290))
+            displayText("YOU WON", 'fonts/Antonio-Bold.ttf', 150, display_width / 2, display_height / 4, black, 50)
             displayText("Wow, you killed them all!", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
             displayText("I have nothing left to sell...", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
             displayText("I am not worthy.", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
+        elif level_count > 6 and boss.health <= 0:
+            pickupGroup.empty()
+            gameDisplay.blit(background, (0, 0))
+            displayText("YOU BEAT GRAND MASTER", 'fonts/Antonio-Bold.ttf', 150, display_width / 2, display_height / 4, black, 50)
             if player.rect.x >= display_width - characters.char_size:
                 player.rect.x = display_width - characters.char_size
+            
+                
         if level_count < 6:
             startString = str('Level ' + str(level_count))
             displayText(startString, 'fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
@@ -256,6 +268,7 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
             enemyGroup.empty()
             break
     if not player.alive:
+        player.health = 0
         death_time = pygame.time.get_ticks()
         while True:
             keys = pygame.key.get_pressed()
@@ -265,7 +278,7 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
             if present_time - death_time >= 4500:
                 return False
 
-def levelSelect(difficulty, level_count, enemies, backgrounds, ledges):
+def levelMaker(difficulty, level_count, enemies, backgrounds, ledges):
     temp_play = None
     if difficulty[0]:
         temp_play = level(enemies[0][0][level_count-1], level_count, backgrounds[level_count-1], ledges[level_count-1], enemies[0][1][level_count-1])
