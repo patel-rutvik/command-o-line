@@ -209,7 +209,6 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
     player.rect.x = 0
     while True:
         logic(level_bkgd, True, level_num)
-        #pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:

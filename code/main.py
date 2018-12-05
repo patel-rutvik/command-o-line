@@ -8,7 +8,7 @@ from play_game import playGame
 # setting up pygame
 pygame.init()
 
-pygame.display.set_caption("Command-o-Line")
+pygame.display.set_caption("Command-O-Line")
 clock = pygame.time.Clock()
 quit = False
 
