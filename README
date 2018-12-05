@@ -1,0 +1,52 @@
+Names: Rutvik Patel, Kaden Dreger
+ID  : 1530012, 1528632
+CCID: rutvik, kaden
+CMPUT 274 Fall 2018
+Final Project: Command-O-Line side scroller
+
+Included files:
+   * 'code' directory
+     * main.py
+     * util.py
+     * characters.py
+     * menu_screen.py
+     * play_game.py
+     * tutorial.py
+
+   * 'images' directory
+     * ammo_crate.png
+     * arrow.png
+     * arrowkeys.png
+     * bad_guy.png
+     * city_background.png
+     * enterkey.png
+     * game_background.png
+     * half_heart.png
+     * heart.png
+     * left_key.png
+     * light_background.png
+     * main_guy.py
+     * medium_background.png
+     * merchant.png
+     * misty_background.jpg
+     * potion.png
+     * right_key.png
+     * speech_bubble.png
+     * stand.png
+     * up_key.png
+
+   * 'fonts' directory
+     * Antonio-Bold.ttf
+     * Antonio-Regular.ttf
+     * Antonio-Light.ttf
+
+   * README
+
+Running Instructions:
+
+    In order to correctly run the program, make sure you are in the correct directory via terminal to access the project files. Simply run the command "python3 main.py" to run the driver program. A popup window will then appear running the game. Click 'play game' to select a difficulty and start playing. If this is your first time playing you may want to consider clicking on 'tutorial', which will show you how to play the game. If you no longer want to play, you can press quit game via the menu screen, or hit the 'x' at the top left/right corner of the window.
+
+
+Controls:
+
+    To control the character, you may use the arrow keys or the keys 'WAD' to allow for easier control over the mouse for right handed users. Aim with your mouse and click to shoot. There are two 'states' while playing. One state is the 'merchant' cooldown stage, where you can restock on health or ammo via the on screen pickups, and the other state is the survival state where you will be faced with enemies and try to survive the wave.

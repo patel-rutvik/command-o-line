@@ -16,24 +16,25 @@ display_width, display_height = 2000, 1000
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 
 
-background = pygame.image.load('images/game_background.jpg')
+background = pygame.image.load('../images/game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
-arrow = pygame.image.load('images/arrow.png')
+arrow = pygame.image.load('../images/arrow.png')
 arrow = pygame.transform.scale(arrow, (150, 100))
-stand = pygame.image.load('images/stand.png')
+stand = pygame.image.load('../images/stand.png')
 stand = pygame.transform.scale(stand, (500,500))
-merchant = pygame.image.load('images/merchant.png')
+merchant = pygame.image.load('../images/merchant.png')
 merchant = pygame.transform.scale(merchant, (125, 200))
-bubble = pygame.image.load('images/speech_bubble.png')
+bubble = pygame.image.load('../images/speech_bubble.png')
 bubble = pygame.transform.scale(bubble, (400, 250))
-heart = pygame.image.load('images/heart.png')
+heart = pygame.image.load('../images/heart.png')
 heart = pygame.transform.scale(heart, (100, 100))
-ammo_pic = pygame.image.load('images/ammo_crate.png')
+ammo_pic = pygame.image.load('../images/ammo_crate.png')
 ammo_pic = pygame.transform.scale(ammo_pic, (100, 100))
-half_heart = pygame.image.load('images/half_heart.png')
+half_heart = pygame.image.load('../images/half_heart.png')
 half_heart = pygame.transform.scale(half_heart, (50, 50))
-small_ammo = pygame.image.load('images/ammo_crate.png')
+small_ammo = pygame.image.load('../images/ammo_crate.png')
 small_ammo = pygame.transform.scale(small_ammo, (50, 50))
+
 
 playerGroup = pygame.sprite.Group()
 player = characters.Player()
@@ -60,7 +61,7 @@ def playGame():
     player.health = 100
     player.ammo = 100
     enemies = [[[1, 2 ,2 ,3 ,3, 0], [0, 0, 1, 1, 1, 0]], [[1, 3, 3, 3, 4, 0], [0, 0, 1, 2, 2, 0]], [[1, 2, 3, 4, 4, 0], [0, 0, 1, 3, 4, 0]]]
-    backgrounds = ['images/light_background.png', 'images/medium_background.png', 'images/city_background.png', 'images/misty_background.jpg', 'images/game_background.jpg', 'images/game_background.jpg']
+    backgrounds = ['../images/light_background.png', '../images/medium_background.png', '../images/city_background.png', '../images/misty_background.jpg', '../images/game_background.jpg', '../images/game_background.jpg']
     ledges = [False, False, True, True, True, False]
     button_size = int((display_width / display_height) * 25)
     pressed = False
@@ -72,13 +73,13 @@ def playGame():
         if not pressed:
             keys = pygame.key.get_pressed()
             gameDisplay.blit(background, (0, 0))
-            displayText("COMMAND-O-LINE", 'fonts/Antonio-Bold.ttf', 200, display_width / 2, (display_height / 5), white, 0)
-            difficulty[0] = button("Easy [e]", 'fonts/Antonio-Regular.ttf', button_size, white, green, 
+            displayText("COMMAND-O-LINE", '../fonts/Antonio-Bold.ttf', 200, display_width / 2, (display_height / 5), white, 0)
+            difficulty[0] = button("Easy [e]", '../fonts/Antonio-Regular.ttf', button_size, white, green, 
                             hovergreen, display_width / 5 + 250, display_height - button_size, 50, True)
-            difficulty[1] = button("Medium [m]", 'fonts/Antonio-Regular.ttf', button_size, white, blue,
+            difficulty[1] = button("Medium [m]", '../fonts/Antonio-Regular.ttf', button_size, white, blue,
                                  hoverblue, display_width / 2, display_height - button_size, 50, 
                                  True)
-            difficulty[2] = button("Hard [h]", 'fonts/Antonio-Regular.ttf', button_size, white, red, hoverred,
+            difficulty[2] = button("Hard [h]", '../fonts/Antonio-Regular.ttf', button_size, white, red, hoverred,
                             (4*display_width) / 5 - 250, display_height - button_size, 50, True)
             
             for event in pygame.event.get():
@@ -124,19 +125,19 @@ def logic(bkgd, playing, level_count):
     pygame.draw.rect(gameDisplay, black, ((0, 0), (display_width, display_height / 15)))
     healthString = str("Health: " + str(player.health) + "/100")
     ammoString = str("Ammo: " + str(player.ammo) + "/300")
-    displayText(healthString, 'fonts/Antonio-Regular.ttf', 30, 100, 30, white, 25)
-    displayText(ammoString , 'fonts/Antonio-Regular.ttf', 30, 500, 30, white, 25)
+    displayText(healthString, '../fonts/Antonio-Regular.ttf', 30, 100, 30, white, 25)
+    displayText(ammoString , '../fonts/Antonio-Regular.ttf', 30, 500, 30, white, 25)
 
     #THINGS THAT HAPPEN ONLY WHILE PLAYING
     if playing:
         pickupGroup.empty()
         enemyString = str('Enemies remaining: ' + str(len(enemyGroup.sprites())))
         levelString = str('Level: ' + str(level_count))
-        displayText(enemyString, 'fonts/Antonio-Regular.ttf', 30, 1850, 30, white, 20)
-        displayText(levelString, 'fonts/Antonio-Regular.ttf', 40, display_width / 2, 30, white, 20)
+        displayText(enemyString, '../fonts/Antonio-Regular.ttf', 30, 1850, 30, white, 20)
+        displayText(levelString, '../fonts/Antonio-Regular.ttf', 40, display_width / 2, 30, white, 20)
         if (len(enemyGroup.sprites()) == 0):
-            displayText("LEVEL COMPLETE", 'fonts/Antonio-Bold.ttf', 125, display_width / 2, display_height / 4, black, 50)
-            displayText("Next stage", 'fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
+            displayText("LEVEL COMPLETE", '../fonts/Antonio-Bold.ttf', 125, display_width / 2, display_height / 4, black, 50)
+            displayText("Next stage", '../fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
             gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
         if player.shot == True:
             bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing, player.location)
@@ -170,15 +171,15 @@ def logic(bkgd, playing, level_count):
         gameDisplay.blit(merchant, (3*display_width / 5 + 400, characters.floor - 50))
         gameDisplay.blit(stand, (display_width / 3 + 400, characters.floor - 300))
         gameDisplay.blit(bubble, ((3*display_width / 5) + 300, characters.floor - 290))
-        back2menu = button("Main Menu (m)", 'fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
+        back2menu = button("Main Menu (m)", '../fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, back2menu)
         if level_count == 1:
-            displayText("This is where you can restock!", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
-            displayText("Come back later to take", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
-            displayText("a look at my merchandise.", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
+            displayText("This is where you can restock!", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
+            displayText("Come back later to take", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
+            displayText("a look at my merchandise.", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
         elif level_count > 1 and level_count < 6:
-            displayText("Take a step into my shop!", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
-            displayText("You can only pick one...", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
-            displayText("Jump to select.", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
+            displayText("Take a step into my shop!", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
+            displayText("You can only pick one...", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
+            displayText("Jump to select.", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
 
             if pickupGroup.sprites() == []:
                 health_pickup = characters.pickUp(heart, display_width / 2 - 700, characters.floor - 200, "health", player)
@@ -196,21 +197,21 @@ def logic(bkgd, playing, level_count):
         elif level_count == 6:
             pickupGroup.empty()
             gameDisplay.blit(bubble, ((3*display_width / 5) + 300, characters.floor - 290))
-            displayText("YOU WON", 'fonts/Antonio-Bold.ttf', 150, display_width / 2, display_height / 4, black, 50)
-            displayText("Wow, you killed them all!", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
-            displayText("I have nothing left to sell...", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
-            displayText("I am not worthy.", 'fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
+            displayText("YOU WON", '../fonts/Antonio-Bold.ttf', 150, display_width / 2, display_height / 4, black, 50)
+            displayText("Wow, you killed them all!", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
+            displayText("I have nothing left to sell...", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
+            displayText("I am not worthy.", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
         elif level_count > 6 and boss.health <= 0:
             pickupGroup.empty()
             gameDisplay.blit(background, (0, 0))
-            displayText("YOU BEAT GRAND MASTER", 'fonts/Antonio-Bold.ttf', 150, display_width / 2, display_height / 4, black, 50)
+            displayText("YOU BEAT GRAND MASTER", '../fonts/Antonio-Bold.ttf', 150, display_width / 2, display_height / 4, black, 50)
             if player.rect.x >= display_width - characters.char_size:
                 player.rect.x = display_width - characters.char_size
             
                 
         if level_count < 6:
             startString = str('Level ' + str(level_count))
-            displayText(startString, 'fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
+            displayText(startString, '../fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
             gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
 
     #UPDATE
@@ -272,7 +273,7 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
         death_time = pygame.time.get_ticks()
         while True:
             keys = pygame.key.get_pressed()
-            displayText("GAME OVER", 'fonts/Antonio-Bold.ttf', 200, display_width / 2, display_height / 4, black, 50)
+            displayText("GAME OVER", '../fonts/Antonio-Bold.ttf', 200, display_width / 2, display_height / 4, black, 50)
             pygame.display.update()
             present_time = pygame.time.get_ticks()
             if present_time - death_time >= 4500:
@@ -280,11 +281,6 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
 
 def levelMaker(difficulty, level_count, enemies, backgrounds, ledges):
     temp_play = None
-    if level_count == 6:
-        player.health = 100
-        player.ammo += 50
-        if player.ammo >= 300:
-            player.ammo = 300
     if difficulty[0]:
         temp_play = level(enemies[0][0][level_count-1], level_count, backgrounds[level_count-1], ledges[level_count-1], enemies[0][1][level_count-1])
     elif difficulty[1]:
