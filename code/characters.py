@@ -13,14 +13,14 @@ char_size = int(display_width / 10)
 floor = int(display_height - (2 * char_size))
 ceiling = int((5*floor) / 9) 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
-small_ammo = pygame.image.load('images/ammo_crate.png')
+small_ammo = pygame.image.load('../images/ammo_crate.png')
 small_ammo = pygame.transform.scale(small_ammo, (50, 50))
 
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/main_guy.png")
+        self.image = pygame.image.load("../images/main_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.rect = self.image.get_rect()
         self.size = char_size
@@ -94,7 +94,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/bad_guy.png")
+        self.image = pygame.image.load("../images/bad_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
@@ -236,7 +236,7 @@ class menugoodGuy(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/main_guy.png")
+        self.image = pygame.image.load("../images/main_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.rect = self.image.get_rect()
         self.rect.y = floor
@@ -252,7 +252,7 @@ class menubadGuy(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/bad_guy.png")
+        self.image = pygame.image.load("../images/bad_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
@@ -267,7 +267,7 @@ class menubadGuy(pygame.sprite.Sprite):
 class tutorialGuy(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/main_guy.png")
+        self.image = pygame.image.load("../images/main_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.rect = self.image.get_rect()
         self.rect.y = floor
@@ -335,7 +335,7 @@ class ledgeEnemy(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/bad_guy.png")
+        self.image = pygame.image.load("../images/bad_guy.png")
         self.image = pygame.transform.scale(self.image, (char_size, char_size))
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
@@ -400,13 +400,13 @@ class pickUp(pygame.sprite.Sprite):
 
     def update(self):
         if self.type == "health":
-            displayText("Big Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, floor - 230, BLACK, 10)
+            displayText("Big Health", '../fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, floor - 230, BLACK, 10)
         elif self.type == "ammo":
-            displayText("Big Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, floor - 230, BLACK, 10)
+            displayText("Big Ammo", '../fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, floor - 230, BLACK, 10)
         elif self.type == "both":
             gameDisplay.blit(small_ammo, (display_width / 2 - 50, floor - 170))
-            displayText("Small Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 240, BLACK, 10)
-            displayText("Small Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 200, BLACK, 10)
+            displayText("Small Health", '../fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 240, BLACK, 10)
+            displayText("Small Ammo", '../fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 200, BLACK, 10)
 
         if self.collide:
             if (self.type == "health"):
@@ -426,7 +426,7 @@ class pickUp(pygame.sprite.Sprite):
 class bossGuy(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('images/merchant.png')
+        self.image = pygame.image.load('../images/merchant.png')
         self.image = pygame.transform.scale(self.image, (400, 640))
         self.rect = self.image.get_rect()
         self.rect.y = floor - 400
