@@ -99,7 +99,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
         self.rect.y = floor
-        self.rect.x = random.randint(display_width, display_width+500)
+        self.rect.x = random.randint(display_width, display_width + (6*char_size))
         self.health = 100
         self.alive = True
         self.shot = False
@@ -113,7 +113,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x += self.speed
         if self.rect.x > 0 and self.rect.x < display_width - char_size:
             self.onScreen = True
-        if (self.rect.x < 0 or self.rect.x > display_width) and self.onScreen:
+        if (self.rect.x < 0 or self.rect.x > display_width - char_size) and self.onScreen:
             self.shot = False
             self.speed = self.speed *-1
             if self.facing == "left":
@@ -195,7 +195,7 @@ class enemyBullet(pygame.sprite.Sprite):
     def __init__(self, player_x, player_y, facing, enemy_x, enemy_y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((2,2))
-        self.image = pygame.transform.scale(self.image, (int(char_size/20), int(char_size/20)))
+        self.image = pygame.transform.scale(self.image, (int(char_size/15), int(char_size/15)))
         self.image.fill(PURPLE)
         self.rect = self.image.get_rect()
         self.rect.y = enemy_y + (char_size/3)
@@ -340,7 +340,7 @@ class ledgeEnemy(pygame.sprite.Sprite):
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
         self.rect.y = floor - 500
-        self.rect.x = random.randint(1500 - char_size, display_width + (4*char_size))
+        self.rect.x = random.randint(display_width, display_width + (7*char_size))
         self.health = 100
         self.alive = True
         self.ledge_reached = False
@@ -349,15 +349,16 @@ class ledgeEnemy(pygame.sprite.Sprite):
         self.cooldown = 3000
         self.facing = "left"
         self.onScreen = False
+        self.speed = -9
 
     def update(self):
-        if self.rect.x < display_width - char_size:
+        self.rect.x += self.speed
+        if self.rect.x > 0 and self.rect.x < display_width - char_size:
             self.onScreen = True
-        if self.ledge_reached == False:
-            self.rect.x -= 9
-        if self.rect.x <= 1500:
-            self.ledge_reached = True
-            self.rect.x = 1500
+        if (self.rect.x < 1500 or self.rect.x > display_width - char_size) and self.onScreen:
+            self.shot = False
+            self.speed = self.speed *-1
+
         if self.health <= 0:
             self.alive = False
         ledgeEnemy.healthBar(self)
@@ -399,26 +400,76 @@ class pickUp(pygame.sprite.Sprite):
 
     def update(self):
         if self.type == "health":
-            displayText("100% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, floor - 230, BLACK, 10)
+            displayText("Big Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 650, floor - 230, BLACK, 10)
         elif self.type == "ammo":
-            displayText("100% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, floor - 230, BLACK, 10)
+            displayText("Big Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 350, floor - 230, BLACK, 10)
         elif self.type == "both":
             gameDisplay.blit(small_ammo, (display_width / 2 - 50, floor - 170))
-            displayText("50% Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 240, BLACK, 10)
-            displayText("50% Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 200, BLACK, 10)
+            displayText("Small Health", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 240, BLACK, 10)
+            displayText("Small Ammo", 'fonts/Antonio-Regular.ttf', 25, display_width / 2 - 50, floor - 200, BLACK, 10)
 
         if self.collide:
             if (self.type == "health"):
-                self.player.health = 100
+                self.player.health += 50
                 self.collide = False
             elif (self.type == "ammo"):
-                self.player.ammo = 100
+                self.player.ammo += 50
                 self.collide = False
             elif (self.type == "both"):
-                self.player.health += math.floor(self.player.health / 2)
-                self.player.ammo += math.floor(self.player.ammo / 2)
-                if self.player.health >= 100:
-                    self.player.health = 100
-                if self.player.ammo >= 100:
-                    self.player.ammo = 100
+                self.player.health += 25
+                self.player.ammo += 25
+            if self.player.health >= 100:
+                self.player.health = 100
+            if self.player.ammo >= 300:
+                self.player.ammo = 300
 
+class bossGuy(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('images/merchant.png')
+        self.image = pygame.transform.scale(self.image, (400, 640))
+        self.rect = self.image.get_rect()
+        self.rect.y = floor - 400
+        self.rect.x = random.randint(display_width, display_width + (6*char_size))
+        self.health = 500
+        self.alive = True
+        self.shot = False
+        self.lastFire = pygame.time.get_ticks()
+        self.cooldown = 1000
+        self.facing = "left"
+        self.speed = -3
+        self.onScreen = False
+
+    def update(self):
+        self.rect.x += self.speed
+        if self.rect.x > 0 and self.rect.x < display_width - char_size:
+            self.onScreen = True
+        if (self.rect.x < 0 or self.rect.x > display_width - char_size) and self.onScreen:
+            self.shot = False
+            self.speed = self.speed *-1
+            if self.facing == "left":
+                Enemy.flip(self)
+                self.facing = "right"
+            elif self.facing == "right":
+                Enemy.flip(self)
+                self.facing = "left"
+        if self.health <= 0:
+            self.alive = False
+        bossGuy.healthBar(self)
+        if self.onScreen:
+            bossGuy.shoot(self)
+
+
+    def healthBar(self):
+        tempInt = 400 / 500
+        pygame.draw.rect(gameDisplay, RED, ((self.rect.x, self.rect.y - 10, 400, 15)))
+        pygame.draw.rect(gameDisplay, GREEN, ((self.rect.x, self.rect.y - 10, (400 - tempInt*(500 - self.health)) , 15)))
+
+    def shoot(self):
+        presentTime = pygame.time.get_ticks()
+        if (presentTime - self.lastFire) >= self.cooldown:
+            self.lastFire = presentTime
+            self.shot = True
+
+    def flip(self):
+        self.image = pygame.transform.flip(self.image, True, False)
