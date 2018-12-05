@@ -1,6 +1,7 @@
 import pygame
 from util import displayText, button
 import characters
+import sys
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -127,9 +128,7 @@ def logic(bkgd, playing, level_count):
         pickupGroup.empty()
         levelStatbar(level_count)
         if (len(enemyGroup.sprites()) == 0):
-            displayText("LEVEL COMPLETE", '../fonts/Antonio-Bold.ttf', 125, display_width / 2, display_height / 4, black, 50)
-            displayText("Next stage", '../fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
-            gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
+            display_complete()
         if player.shot == True:
             bullet = characters.Bullet(player.rect.x, player.rect.y, player.facing, player.location)
             bulletGroup.add(bullet)
@@ -214,7 +213,7 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
                 if event.key == pygame.K_RETURN:
                     play = False
             if event.type == pygame.QUIT:
-                pygame.quit()
+                sys.exit()
         if (player.rect.x >= display_width) and (len(enemyGroup.sprites()) == 0):
             break
         elif (player.rect.x >= (display_width - player.size)) and (len(enemyGroup.sprites()) > 0):
@@ -233,6 +232,12 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
             present_time = pygame.time.get_ticks()
             if present_time - death_time >= 4500:
                 return False
+
+
+def display_complete():
+    displayText("LEVEL COMPLETE", '../fonts/Antonio-Bold.ttf', 125, display_width / 2, display_height / 4, black, 50)
+    displayText("Next stage", '../fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
+    gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
 
 def makeStatbar():
     pygame.draw.rect(gameDisplay, black, ((0, 0), (display_width, display_height / 15)))
