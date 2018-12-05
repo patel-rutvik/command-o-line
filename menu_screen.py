@@ -41,11 +41,18 @@ def menuScreen(state):
     menuGroup.update()
     menuGroup.draw(gameDisplay)
     if play_state != state:
+        #menuGroup.empty()
+        #menuGroup.update()
         return play_state
     elif quit_state != state:
+        #menuGroup.empty()
+        #menuGroup.update()
         return quit_state
     elif tutorial_state != state:
+        #menuGroup.empty()
+        #menuGroup.update()
         return tutorial_state
+
     #if state != button_state:
      #   return button_state
 
