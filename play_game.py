@@ -280,6 +280,11 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
 
 def levelMaker(difficulty, level_count, enemies, backgrounds, ledges):
     temp_play = None
+    if level_count == 6:
+        player.health = 100
+        player.ammo += 50
+        if player.ammo >= 300:
+            player.ammo = 300
     if difficulty[0]:
         temp_play = level(enemies[0][0][level_count-1], level_count, backgrounds[level_count-1], ledges[level_count-1], enemies[0][1][level_count-1])
     elif difficulty[1]:
