@@ -33,6 +33,7 @@ tutorialPlayer = characters.tutorialGuy()
 tutorialGroup.add(tutorialPlayer)
 bulletGroup = pygame.sprite.Group()
 
+
 def tutorialScreen():
     tutorial = True
     while tutorial:
@@ -42,23 +43,11 @@ def tutorialScreen():
             bullet = characters.Bullet(tutorialPlayer.rect.x, tutorialPlayer.rect.y, tutorialPlayer.facing, tutorialPlayer.location)
             bulletGroup.add(bullet)
             tutorialPlayer.canShoot = False
-        tutorialGroup.update()
-        bulletGroup.update()
-        bulletGroup.draw(gameDisplay)
-        tutorialGroup.draw(gameDisplay)
-        displayText("Tutorial", '../fonts/Antonio-Bold.ttf', 125, display_width / 2, 100, white, 0)
-        displayText("You will be controlling             ", '../fonts/Antonio-Regular.ttf', 65, (display_width / 2), 275, white, 0)
-        displayText("Roberto", '../fonts/Antonio-Bold.ttf', 30, (display_width / 2) + 250, 350, white, 0)
-        displayText("Press       on the keypad to move right", '../fonts/Antonio-Regular.ttf', 50, (display_width / 3), 475, white, 0)
-        displayText("Press       on the keypad to move left", '../fonts/Antonio-Regular.ttf', 50, (display_width / 3), 575, white, 0)
-        displayText("Press       on the keypad to jump", '../fonts/Antonio-Regular.ttf', 50, (display_width / 3), 675, white, 0)
-        displayText("Use the mouse to aim and shoot!", '../fonts/Antonio-Regular.ttf', 50, (display_width / 3), 775, white, 0)
+        updateDraw()
+        tutorialText()
         tempState = button("Main Menu (m)", '../fonts/Antonio-Regular.ttf', 40, white, red, hoverred, 1875, 970, 25, False)
         if tempState != None:
             tutorial = tempState
-        gameDisplay.blit(right_key, ((display_width / 3) - 310, 385))
-        gameDisplay.blit(left_key, ((display_width / 3) - 215, 480))
-        gameDisplay.blit(up_key, ((display_width / 3) - 225, 635))
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_m:
@@ -68,3 +57,22 @@ def tutorialScreen():
         pygame.display.update()
         clock.tick(60)
 
+
+def updateDraw():
+    tutorialGroup.update()
+    bulletGroup.update()
+    bulletGroup.draw(gameDisplay)
+    tutorialGroup.draw(gameDisplay)
+
+
+def tutorialText():
+    displayText("Tutorial", '../fonts/Antonio-Bold.ttf', 125, display_width / 2, 100, white, 0)
+    displayText("You will be controlling             ", '../fonts/Antonio-Regular.ttf', 65, (display_width / 2), 275, white, 0)
+    displayText("Roberto", '../fonts/Antonio-Bold.ttf', 30, (display_width / 2) + 250, 350, white, 0)
+    displayText("Press       on the keypad to move right", '../fonts/Antonio-Regular.ttf', 50, (display_width / 3), 475, white, 0)
+    displayText("Press       on the keypad to move left", '../fonts/Antonio-Regular.ttf', 50, (display_width / 3), 575, white, 0)
+    displayText("Press       on the keypad to jump", '../fonts/Antonio-Regular.ttf', 50, (display_width / 3), 675, white, 0)
+    displayText("Use the mouse to aim and shoot!", '../fonts/Antonio-Regular.ttf', 50, (display_width / 3), 775, white, 0)
+    gameDisplay.blit(right_key, ((display_width / 3) - 310, 385))
+    gameDisplay.blit(left_key, ((display_width / 3) - 215, 480))
+    gameDisplay.blit(up_key, ((display_width / 3) - 225, 635))

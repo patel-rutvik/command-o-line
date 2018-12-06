@@ -3,6 +3,8 @@ import time
 import math
 import random
 from util import displayText
+
+
 ORANGE = (255, 165, 0)
 BLACK = (0, 0, 0)
 RED = (200, 0, 0)
@@ -15,6 +17,7 @@ ceiling = int((5*floor) / 9)
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 small_ammo = pygame.image.load('../images/ammo_crate.png')
 small_ammo = pygame.transform.scale(small_ammo, (50, 50))
+
 
 class Player(pygame.sprite.Sprite):
 
@@ -31,6 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.health = 100
         self.ammo = 100
         self.alive = True
+
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -69,6 +73,7 @@ class Player(pygame.sprite.Sprite):
             self.canShoot = True
         Player.alive(self)
 
+
     def flipIt(self):
         self.image = pygame.transform.flip(self.image, True, False)
 
@@ -80,15 +85,19 @@ class Player(pygame.sprite.Sprite):
     def moveLeft(self):
         self.rect.x -= (display_width / 100) 
 
+
     def jump(self):
         self.rect.y -= (display_height / 100) * 4
         
+
     def gravity(self):
         self.rect.y += (display_height / 100) * 4
+
 
     def alive(self):
         if self.health <= 0:
             self.alive = False
+
 
 class Enemy(pygame.sprite.Sprite):
 
@@ -108,6 +117,7 @@ class Enemy(pygame.sprite.Sprite):
         self.facing = "left"
         self.speed = -9
         self.onScreen = False
+
 
     def update(self):
         self.rect.x += self.speed
@@ -134,14 +144,17 @@ class Enemy(pygame.sprite.Sprite):
         pygame.draw.rect(gameDisplay, RED, ((self.rect.x, self.rect.y - 10, char_size, 15)))
         pygame.draw.rect(gameDisplay, GREEN, ((self.rect.x, self.rect.y - 10, (char_size - tempInt*(100 - self.health)) , 15)))
 
+
     def shoot(self):
         presentTime = pygame.time.get_ticks()
         if (presentTime - self.lastFire) >= self.cooldown:
             self.lastFire = presentTime
             self.shot = True
 
+
     def flip(self):
         self.image = pygame.transform.flip(self.image, True, False)
+
 
 class Bullet(pygame.sprite.Sprite):
 
@@ -164,6 +177,7 @@ class Bullet(pygame.sprite.Sprite):
         self.originY = self.rect.y
         self.speed = 45
 
+
     def update(self):
         Xspeed, Yspeed = Bullet.calc(self)
         if self.originX < self.location[0] and self.originY > self.location[1]:
@@ -182,6 +196,7 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.x > display_width or self.rect.x < 0 or self.rect.y < 0 or self.rect.y > display_height:
             self.alive = False
 
+
     def calc(self):
         deltaX = self.location[0] - self.originX + 0.0001
         deltaY = self.location[1] - self.originY
@@ -189,6 +204,7 @@ class Bullet(pygame.sprite.Sprite):
         Xspeed = self.speed * math.cos(theta)
         Yspeed = self.speed * math.sin(theta)
         return Xspeed, Yspeed
+
 
 class enemyBullet(pygame.sprite.Sprite):
 
@@ -212,6 +228,7 @@ class enemyBullet(pygame.sprite.Sprite):
         self.originY = self.rect.y
         self.speed = 45
 
+
     def update(self):
         Xspeed, Yspeed = enemyBullet.calc(self)
         if (self.player_x < self.originX):
@@ -224,6 +241,7 @@ class enemyBullet(pygame.sprite.Sprite):
         if self.rect.x > display_width or self.rect.x < 0 or self.rect.y < 0 or self.rect.y > display_height:
             self.alive = False
 
+
     def calc(self):
         deltaX = self.player_x - self.originX + char_size/2 + 0.0001
         deltaY = self.player_y + (char_size/2) - self.originY
@@ -231,6 +249,7 @@ class enemyBullet(pygame.sprite.Sprite):
         Xspeed = self.speed * math.cos(theta)
         Yspeed = self.speed * math.sin(theta)
         return Xspeed, Yspeed
+
 
 class menugoodGuy(pygame.sprite.Sprite):
 
@@ -241,6 +260,7 @@ class menugoodGuy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.y = floor
         self.rect.x = 0
+
 
     def update(self):
         self.rect.x += 7
@@ -259,12 +279,15 @@ class menubadGuy(pygame.sprite.Sprite):
         self.rect.y = floor
         self.rect.x = random.randint(0, display_width)
 
+
     def update(self):
         self.rect.x -= random.randint(0, 25)
         if self.rect.x < 0 - char_size:
             self.rect.x = display_width + char_size
 
+
 class tutorialGuy(pygame.sprite.Sprite):
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("../images/main_guy.png")
@@ -275,6 +298,7 @@ class tutorialGuy(pygame.sprite.Sprite):
         self.shot = False
         self.canShoot = True
         self.rect.x = 1200
+
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -314,6 +338,7 @@ class tutorialGuy(pygame.sprite.Sprite):
         if click[0] == False:
             self.canShoot = True
 
+
     def flipIt(self):
         self.image = pygame.transform.flip(self.image, True, False)
 
@@ -325,12 +350,15 @@ class tutorialGuy(pygame.sprite.Sprite):
     def moveLeft(self):
         self.rect.x -= (display_width / 100) 
 
+
     def jump(self):
         self.rect.y -= (display_height / 100) * 3
         
+
     def gravity(self):
         self.rect.y += (display_height / 100) * 3
         
+
 class ledgeEnemy(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -351,6 +379,7 @@ class ledgeEnemy(pygame.sprite.Sprite):
         self.onScreen = False
         self.speed = -9
 
+
     def update(self):
         self.rect.x += self.speed
         if self.rect.x > 0 and self.rect.x < display_width - char_size:
@@ -365,10 +394,12 @@ class ledgeEnemy(pygame.sprite.Sprite):
         if self.onScreen:
             ledgeEnemy.shoot(self)
 
+
     def healthBar(self):
         tempInt = char_size / 100
         pygame.draw.rect(gameDisplay, RED, ((self.rect.x, self.rect.y - 10, char_size, 15)))
         pygame.draw.rect(gameDisplay, GREEN, ((self.rect.x, self.rect.y - 10, (char_size - tempInt*(100 - self.health)) , 15)))
+
 
     def shoot(self):
         presentTime = pygame.time.get_ticks()
@@ -376,7 +407,9 @@ class ledgeEnemy(pygame.sprite.Sprite):
             self.lastFire = presentTime
             self.shot = True
 
+
 class Ledge(pygame.sprite.Sprite):
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((2,2))
@@ -388,6 +421,7 @@ class Ledge(pygame.sprite.Sprite):
 
 
 class pickUp(pygame.sprite.Sprite):
+
     def __init__(self, image, x, y, pickType, player):
         pygame.sprite.Sprite.__init__(self)
         self.image = image
@@ -397,6 +431,7 @@ class pickUp(pygame.sprite.Sprite):
         self.type = pickType
         self.collide = False
         self.player = player
+
 
     def update(self):
         if self.type == "health":
@@ -423,7 +458,9 @@ class pickUp(pygame.sprite.Sprite):
             if self.player.ammo >= 300:
                 self.player.ammo = 300
 
+
 class bossGuy(pygame.sprite.Sprite):
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('../images/merchant.png')
@@ -439,6 +476,7 @@ class bossGuy(pygame.sprite.Sprite):
         self.facing = "left"
         self.speed = -3
         self.onScreen = False
+
 
     def update(self):
         self.rect.x += self.speed
@@ -465,11 +503,13 @@ class bossGuy(pygame.sprite.Sprite):
         pygame.draw.rect(gameDisplay, RED, ((self.rect.x, self.rect.y - 10, 400, 15)))
         pygame.draw.rect(gameDisplay, GREEN, ((self.rect.x, self.rect.y - 10, (400 - tempInt*(500 - self.health)) , 15)))
 
+
     def shoot(self):
         presentTime = pygame.time.get_ticks()
         if (presentTime - self.lastFire) >= self.cooldown:
             self.lastFire = presentTime
             self.shot = True
+
 
     def flip(self):
         self.image = pygame.transform.flip(self.image, True, False)
