@@ -2,6 +2,7 @@ import pygame
 from util import displayText, button
 import characters
 
+# declaring our global variables
 black = (0, 0, 0)
 white = (255, 255, 255)
 green = (100, 200, 100)
@@ -10,13 +11,21 @@ hoverred = (220, 0, 0)
 yellow = (180, 180, 0)
 hoveryellow = (200, 200, 0)
 display_width, display_height = 2000, 1000
+
+# initializing pygame modules
 clock = pygame.time.Clock()
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 
+# creating sprite groups
 all_sprites = pygame.sprite.Group()
 player = characters.Player()
 all_sprites.add(player)
+tutorialGroup = pygame.sprite.Group()
+tutorialPlayer = characters.tutorialGuy()
+tutorialGroup.add(tutorialPlayer)
+bulletGroup = pygame.sprite.Group()
 
+# importing and rescaling images
 background = pygame.image.load('../images/game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
 left_key = pygame.image.load('../images/left_key.png')
@@ -28,15 +37,15 @@ up_key = pygame.transform.scale(up_key, (125, 125))
 character = pygame.image.load('../images/main_guy.png')
 character = pygame.transform.scale(character, (150,150))
 
-tutorialGroup = pygame.sprite.Group()
-tutorialPlayer = characters.tutorialGuy()
-tutorialGroup.add(tutorialPlayer)
-bulletGroup = pygame.sprite.Group()
 
-
+# The tutorial screen function takes in no paramaters, nor does it return
+# anything. It is generally in charge of the visuals and establishing a
+# moveable character to allow the user to become familiar with the controls
+# of the game.
 def tutorialScreen():
     tutorial = True
     while tutorial:
+        # displaying baackground and characters
         gameDisplay.blit(background, (0, 0))
         gameDisplay.blit(character, ((display_width / 2) + 185, 180))
         if tutorialPlayer.shot == True:
@@ -57,14 +66,17 @@ def tutorialScreen():
         pygame.display.update()
         clock.tick(60)
 
-
+# This function does not take in or return any parameters.
+# It is simply in charge of updating and drawing sprites.
 def updateDraw():
     tutorialGroup.update()
     bulletGroup.update()
     bulletGroup.draw(gameDisplay)
     tutorialGroup.draw(gameDisplay)
 
-
+# This function does not take in or return any parameters.
+# It is simply in charge of updating the screen and draw the
+# text needed to convey the tutorial instructions. 
 def tutorialText():
     displayText("Tutorial", '../fonts/Antonio-Bold.ttf', 125, display_width / 2, 100, white, 0)
     displayText("You will be controlling             ", '../fonts/Antonio-Regular.ttf', 65, (display_width / 2), 275, white, 0)
