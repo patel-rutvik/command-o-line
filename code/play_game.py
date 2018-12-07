@@ -20,20 +20,44 @@ gameDisplay = pygame.display.set_mode((display_width, display_height))
 # importing all the images needed
 background = pygame.image.load('../images/game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
+# arrow image found from
+# https://www.google.ca/url?sa=i&source=images&cd=&cad=rja&uact=8&
+#ved=2ahUKEwiy_vr70ozfAhVolVQKHZj3AakQjRx6BAgBEAU&url=https%3A%2F%
+#2Ficons8.com%2Ficon%2F15816%2Fright-arrow&psig=AOvVaw18E7BwfPc0QZ
+#K3YbMpE79g&ust=1544235311639470
 arrow = pygame.image.load('../images/arrow.png')
 arrow = pygame.transform.scale(arrow, (150, 100))
+
 stand = pygame.image.load('../images/stand.png')
 stand = pygame.transform.scale(stand, (500,500))
+
 merchant = pygame.image.load('../images/merchant.png')
 merchant = pygame.transform.scale(merchant, (125, 200))
+
 bubble = pygame.image.load('../images/speech_bubble.png')
 bubble = pygame.transform.scale(bubble, (400, 250))
+
 heart = pygame.image.load('../images/heart.png')
 heart = pygame.transform.scale(heart, (100, 100))
+
+# ammo sprite image found from
+# https://www.google.ca/url?sa=i&source=images&cd=&cad=rj
+#a&uact=8&ved=2ahUKEwiG-JGT0YzfAhXmy4MKHcXWBP0QjRx6BAgBEAU&
+#url=http%3A%2F%2Fcommando2.wikia.com%2Fwiki%2FFile%3AAmmu
+#nition_Box_Commando_2.png&psig=AOvVaw3kSbr4AeqppwPCXnh8vJ
+#5X&ust=1544234823541650
 ammo_pic = pygame.image.load('../images/ammo_crate.png')
 ammo_pic = pygame.transform.scale(ammo_pic, (100, 100))
+
+# half heart sprite image found from
+# https://www.google.ca/url?sa=i&source=images&cd=&cad=rja
+#&uact=8&ved=2ahUKEwj7iaqZ0IzfAhXIi1QKHQX1DK4QjRx6BAgBEAU&
+#url=https%3A%2F%2Fwww.iconfinder.com%2Ficons%2F1859509%2F
+#half_health_heart_life_red_icon&psig=AOvVaw3q_jzbRu5X2P-s
+#fhDIqpfj&ust=1544234558589093
 half_heart = pygame.image.load('../images/half_heart.png')
 half_heart = pygame.transform.scale(half_heart, (50, 50))
+
 small_ammo = pygame.image.load('../images/ammo_crate.png')
 small_ammo = pygame.transform.scale(small_ammo, (50, 50))
 
@@ -64,7 +88,7 @@ def playGame():
     player.ammo = 100
     # 3D list of enemies, including ground enemies and ledge enemies for each level
     enemies = [[[1, 2 ,2 ,3 ,3, 0], [0, 0, 1, 1, 1, 0]], [[1, 3, 3, 3, 4, 0], [0, 0, 1, 2, 2, 0]], [[1, 2, 3, 4, 4, 0], [0, 0, 1, 3, 4, 0]]]
-    # the list of image addresses for the backgrounds
+    # the list of image addresses for the backgrounds, check bottom of file for citations.
     backgrounds = ['../images/light_background.png', '../images/medium_background.png', '../images/city_background.png', '../images/misty_background.jpg', '../images/game_background.jpg', '../images/game_background.jpg']
     # the list of bool values to indicate whether or not to make a ledge
     # for that corresponding level
@@ -368,7 +392,7 @@ def levelMaker(difficulty, level_count, enemies, backgrounds, ledges):
 
 # This function simply makes the sprites at the beginning of
 # each level as they are all cleared at the end of each
-# transtiion state
+# transition state
 def makeSprites():
     if pickupGroup.sprites() == []:
         health_pickup = characters.pickUp(heart, display_width / 2 - 700, characters.floor - 200, "health", player)
@@ -378,7 +402,7 @@ def makeSprites():
 
 
 # This function simply checks if the player has chosen to
-# pickup any of the pickups or not
+# pick up any of the pickups or not
 def getCollision():
     sprite = pygame.sprite.spritecollideany(player, pickupGroup)
     if sprite != None and len(pickupGroup.sprites()) == 3:
@@ -387,7 +411,7 @@ def getCollision():
         pygame.sprite.groupcollide(pickupGroup, playerGroup, True, False)
 
 
-# This functino draws and updates all the sprites to the screen.
+# This function draws and updates all the sprites to the screen.
 def updateDraw():
     #UPDATE
     pickupGroup.update()
@@ -406,7 +430,7 @@ def updateDraw():
     enemyBulletGroup.draw(gameDisplay)
 
 
-# This functino is responsible for displaying the end game text after
+# This function is responsible for displaying the end game text after
 # the user defeats the boss
 def bossWin():
     pickupGroup.empty()
@@ -415,7 +439,7 @@ def bossWin():
     if player.rect.x >= display_width - characters.char_size:
         player.rect.x = display_width - characters.char_size
 
-# Thsi functin is responsible for emptying the pickups, updating merchat
+# Thsi function is responsible for emptying the pickups, updating merchant
 # dialogue, and displaying the 'YOU WON' text to the screen.
 def youWon():
     pickupGroup.empty()
@@ -427,3 +451,12 @@ def youWon():
     displayText("Wow, you killed them all!", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
     displayText("I have nothing left to sell...", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
     displayText("I am not worthy...", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
+
+
+# images from:
+# misty_background: https://www.google.ca/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiklsbe1ozfAhWyLn0KHcG8BxEQjRx6BAgBEAU&url
+#                   =https%3A%2F%2Fopengameart.org%2Fcontent%2Fbevouliin-the-mist-free-game-background&psig=AOvVaw0EUDV6lPp-dnnHXMJZWS05
+#                   &ust=1544236323486447
+# light and medium: https://www.google.ca/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwidn5Xk14zfAhV9HjQIHT-BD1cQjRx6BAgBEAU&url
+#    backgrounds    =https%3A%2F%2Fdribbble.com%2Fshots%2F1557487-Side-Scrolling-Game-Background-Desert-River&psig=AOvVaw141QjMKzDHo03uqa
+#                   aRiWPd&ust=1544236479938515

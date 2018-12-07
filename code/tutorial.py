@@ -28,17 +28,22 @@ bulletGroup = pygame.sprite.Group()
 # importing and rescaling images
 background = pygame.image.load('../images/game_background.jpg')
 background = pygame.transform.scale(background, (2000, 1000))
+# arrow keys found from:
+# https://www.google.ca/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiW2srr2ozfAhWZ14MKHScGAB8Qj
+# Rx6BAgBEAU&url=https%3A%2F%2Ffr.m.wikipedia.org%2Fwiki%2FFichier%3ACursor-key-arrangements-according-to
+# -isoiec-9995-5.png&psig=AOvVaw2cPzXvj-MVtkDN-L8rudkL&ust=1544237414005703
 left_key = pygame.image.load('../images/left_key.png')
 left_key = pygame.transform.scale(left_key, (125, 125))
 right_key = pygame.image.load('../images/right_key.png')
 right_key = pygame.transform.scale(right_key, (125, 125))
 up_key = pygame.image.load('../images/up_key.png')
 up_key = pygame.transform.scale(up_key, (125, 125))
+
 character = pygame.image.load('../images/main_guy.png')
 character = pygame.transform.scale(character, (150,150))
 
 
-# The tutorial screen function takes in no paramaters, nor does it return
+# The tutorial screen function takes in no parameters, nor does it return
 # anything. It is generally in charge of the visuals and establishing a
 # moveable character to allow the user to become familiar with the controls
 # of the game.

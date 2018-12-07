@@ -22,7 +22,7 @@ def game_loop(quit):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 # We can add an "Are you sure you would like to quit" window later... 
-                quit = True
+                quit = Trues
         # default run state is the menu screen
         gameState = menuScreen(None)
 
@@ -40,6 +40,7 @@ def game_loop(quit):
 
 # calling game loop
 game_loop(quit)
+
 # quitting appropriately when done playing
 pygame.quit()
 sys.exit()
