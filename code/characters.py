@@ -15,6 +15,7 @@ char_size = int(display_width / 10)
 floor = int(display_height - (2 * char_size))
 ceiling = int((5*floor) / 9) 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
+
 small_ammo = pygame.image.load('../images/ammo_crate.png')
 small_ammo = pygame.transform.scale(small_ammo, (50, 50))
 

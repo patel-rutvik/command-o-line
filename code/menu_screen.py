@@ -35,7 +35,7 @@ for i in range(bad_guys):
 # displaying the buttons to the screen and navigating between the states.
 def menuScreen(state):
     gameDisplay.blit(background, (0, 0))
-    displayText("COMMAND-O-LINE", '../fonts/Antonio-Bold.ttf', 200, display_width / 2, (display_height / 5),
+    displayText("COMsMAND-O-LINE", '../fonts/Antonio-Bold.ttf', 200, display_width / 2, (display_height / 5),
                  white, 0)
 
     # creating the buttons
