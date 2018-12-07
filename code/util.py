@@ -34,7 +34,7 @@ def displayText(text, font_type, fontsize, x, y, color, buff):
 
 
 # This function takes in the following... 
-# text: text to be displayer
+# text: text to be displayed
 # font_type: font chosen
 # fontsize: size of the text
 # The function then calculates and returns the text width, height, and
