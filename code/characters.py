@@ -635,3 +635,9 @@ class bossGuy(pygame.sprite.Sprite):
 
     def flip(self):
         self.image = pygame.transform.flip(self.image, True, False)
+
+
+# Lots of code was used from the pygame documentation
+# https://www.pygame.org/docs/ref/sprite.html
+# Idea for gun cooldown time:
+# https://stackoverflow.com/questions/18839039/how-to-wait-some-time-in-pygame
