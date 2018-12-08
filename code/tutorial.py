@@ -43,11 +43,12 @@ character = pygame.image.load('../images/main_guy.png')
 character = pygame.transform.scale(character, (150,150))
 
 
-# The tutorial screen function takes in no parameters, nor does it return
-# anything. It is generally in charge of the visuals and establishing a
-# moveable character to allow the user to become familiar with the controls
-# of the game.
+
 def tutorialScreen():
+    # The tutorial screen function takes in no parameters, nor does it return
+    # anything. It is generally in charge of the visuals and establishing a
+    # moveable character to allow the user to become familiar with the controls
+    # of the game.
     tutorial = True
     while tutorial:
         # displaying baackground and characters
@@ -71,18 +72,20 @@ def tutorialScreen():
         pygame.display.update()
         clock.tick(60)
 
-# This function does not take in or return any parameters.
-# It is simply in charge of updating and drawing sprites.
+
 def updateDraw():
+    # This function does not take in or return any parameters.
+    # It is simply in charge of updating and drawing sprites.
     tutorialGroup.update()
     bulletGroup.update()
     bulletGroup.draw(gameDisplay)
     tutorialGroup.draw(gameDisplay)
 
-# This function does not take in or return any parameters.
-# It is simply in charge of updating the screen and draw the
-# text needed to convey the tutorial instructions. 
+
 def tutorialText():
+    # This function does not take in or return any parameters.
+    # It is simply in charge of updating the screen and draw the
+    # text needed to convey the tutorial instructions.
     displayText("Tutorial", '../fonts/Antonio-Bold.ttf', 125, display_width / 2, 100, white, 0)
     displayText("You will be controlling             ", '../fonts/Antonio-Regular.ttf', 65, (display_width / 2), 275, white, 0)
     displayText("Roberto", '../fonts/Antonio-Bold.ttf', 30, (display_width / 2) + 250, 350, white, 0)

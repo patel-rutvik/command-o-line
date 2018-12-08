@@ -80,11 +80,13 @@ pickupGroup = pygame.sprite.Group()
 boss = characters.bossGuy()
 
 
-# The play game function is the main driver function of this file.
-# It takes in no parameters but it calls all the other functions in
-# this file to run the game logic and run the level design. Finally,
-# this function returns the current state if the user decides to quit.
+
 def playGame():
+    # The play game function is the main driver function of this file.
+    # It takes in no parameters but it calls all the other functions in
+    # this file to run the game logic and run the level design. Finally,
+    # this function returns the current state if the user decides to quit.
+
     # initializing the levels
     faceRight()
     player.alive = True
@@ -162,9 +164,10 @@ def playGame():
                 play = False
 
 
-# This function simply empties all the sprite groups and 
-# resets player position
+
 def resetLevel():
+    # This function simply empties all the sprite groups and 
+    # resets player position
     player.rect.x = 0
     bulletGroup.empty()
     ledgeGroup.empty()
@@ -172,11 +175,13 @@ def resetLevel():
     pickupGroup.empty()
 
 
-# This function takes in the following parameters...
-# bkgd : background address of the background to be displayed
-# playing: check if the user is in the playing state or not
-# level_count: the current level the user is on
+
 def logic(bkgd, playing, level_count):
+    # This function takes in the following parameters...
+    # bkgd : background address of the background to be displayed
+    # playing: check if the user is in the playing state or not
+    # level_count: the current level the user is on
+    
     # THINGS THAT HAPPEN ALL THE TIME
     gameDisplay.blit(bkgd, (0, 0))
     back2menu = False
@@ -317,26 +322,29 @@ def level(num_enemy, level_num, background, isLedge, num_ledge_enemies):
                 return False
 
 
-# This function takes in no parameters nor does it reutrn parameters
-# This function is responsible for displaying the merchant to the screen.
+
 def display_merchant():
+    # This function takes in no parameters nor does it reutrn parameters
+    # This function is responsible for displaying the merchant to the screen.
     gameDisplay.blit(merchant, (3*display_width / 5 + 400, characters.floor - 50))
     gameDisplay.blit(stand, (display_width / 3 + 400, characters.floor - 300))
     gameDisplay.blit(bubble, ((3*display_width / 5) + 300, characters.floor - 290))
 
 
-# This function takes in no parameters nor does it return parameters
-# This function is reponsible for displaying the level complete text
-# to the game screen
+
 def display_complete():
+    # This function takes in no parameters nor does it return parameters
+    # This function is reponsible for displaying the level complete text
+    # to the game screen
     displayText("LEVEL COMPLETE", '../fonts/Antonio-Bold.ttf', 125, display_width / 2, display_height / 4, black, 50)
     displayText("Next stage", '../fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
     gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
 
 
-# This function takes in no parameters nor does it return parameters.
-# It simply creates and draws the stat bar at the top of the screen.
+
 def makeStatbar():
+    # This function takes in no parameters nor does it return parameters.
+    # It simply creates and draws the stat bar at the top of the screen.
     pygame.draw.rect(gameDisplay, black, ((0, 0), (display_width, display_height / 15)))
     healthString = str("Health: " + str(player.health) + "/100")
     ammoString = str("Ammo: " + str(player.ammo) + "/300")
@@ -344,30 +352,33 @@ def makeStatbar():
     displayText(ammoString , '../fonts/Antonio-Regular.ttf', 30, 500, 30, white, 25)
 
 
-# This function works hand in hand with the previous function and updates the
-# stat bar during the level with the enemy count and level number
+
 def levelStatbar(level_count):
+    # This function works hand in hand with the previous function and updates the
+    # stat bar during the level with the enemy count and level number
     enemyString = str('Enemies remaining: ' + str(len(enemyGroup.sprites())))
     levelString = str('Level: ' + str(level_count))
     displayText(enemyString, '../fonts/Antonio-Regular.ttf', 30, 1850, 30, white, 20)
     displayText(levelString, '../fonts/Antonio-Regular.ttf', 40, display_width / 2, 30, white, 20)
 
 
-# This function checks if the player is facing the correct
-# direction when the user begins playing
+
 def faceRight():
+    # This function checks if the player is facing the correct
+    # direction when the user begins playing
     if len(playerGroup.sprites()) == 0:
             playerGroup.add(player)
             if player.facing == "left":
                 player.flipIt()
                 player.facing = "right"
 
-# This function takes in the parameters...
-# state: the state of the merchant, whether it is the intro
-#        screen or every other level
-# This function is responsible for displaying merchant dialogue
-# in the transition state.
+
 def merchantDialogue(state):
+    # This function takes in the parameters...
+    # state: the state of the merchant, whether it is the intro
+    #        screen or every other level
+    # This function is responsible for displaying merchant dialogue
+    # in the transition state.
     if state == "intro":
             displayText("This is where you can restock!", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 235, black, 10)
             displayText("Come back later to take", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 185, black, 10)
@@ -378,15 +389,16 @@ def merchantDialogue(state):
             displayText("Jump to select.", '../fonts/Antonio-Regular.ttf', 25, (3*display_width/5) + 500, characters.floor - 135, black, 10)
 
 
-# This function takes in the parameters...
-# difficulty: the difficulty of the game selected by the user
-# level_count: the current level the user is on
-# enemies: the 3d list of the enemies, ledge enemies, and boss
-# backgrounds: the list of backgrounds which change every level
-# ledges: the list of bool values which indicate whether or not
-#         to draw the ledge for the corresponding index level
-# This function then returns the current 'state' of the level
+
 def levelMaker(difficulty, level_count, enemies, backgrounds, ledges):
+    # This function takes in the parameters...
+    # difficulty: the difficulty of the game selected by the user
+    # level_count: the current level the user is on
+    # enemies: the 3d list of the enemies, ledge enemies, and boss
+    # backgrounds: the list of backgrounds which change every level
+    # ledges: the list of bool values which indicate whether or not
+    #         to draw the ledge for the corresponding index level
+    # This function then returns the current 'state' of the level
     temp_play = None
     if difficulty[0]:
         temp_play = level(enemies[0][0][level_count-1], level_count, backgrounds[level_count-1], ledges[level_count-1], enemies[0][1][level_count-1])
@@ -397,10 +409,11 @@ def levelMaker(difficulty, level_count, enemies, backgrounds, ledges):
     return temp_play
 
 
-# This function simply makes the sprites at the beginning of
-# each level as they are all cleared at the end of each
-# transition state
+
 def makeSprites():
+    # This function simply makes the sprites at the beginning of
+    # each level as they are all cleared at the end of each
+    # transition state
     if pickupGroup.sprites() == []:
         health_pickup = characters.pickUp(heart, display_width / 2 - 700, characters.floor - 200, "health", player)
         ammo_pickup = characters.pickUp(ammo_pic, display_width / 2 - 400, characters.floor - 200, "ammo", player)
@@ -408,9 +421,10 @@ def makeSprites():
         pickupGroup.add(health_pickup, ammo_pickup, both_pickup)
 
 
-# This function simply checks if the player has chosen to
-# pick up any of the pickups or not
+
 def getCollision():
+    # This function simply checks if the player has chosen to
+    # pick up any of the pickups or not
     sprite = pygame.sprite.spritecollideany(player, pickupGroup)
     if sprite != None and len(pickupGroup.sprites()) == 3:
         sprite.collide = True
@@ -418,8 +432,10 @@ def getCollision():
         pygame.sprite.groupcollide(pickupGroup, playerGroup, True, False)
 
 
-# This function draws and updates all the sprites to the screen.
+
 def updateDraw():
+    # This function draws and updates all the sprites to the screen.
+
     #UPDATE
     pickupGroup.update()
     playerGroup.update()
@@ -437,18 +453,20 @@ def updateDraw():
     enemyBulletGroup.draw(gameDisplay)
 
 
-# This function is responsible for displaying the end game text after
-# the user defeats the boss
+
 def bossWin():
+    # This function is responsible for displaying the end game text after
+    # the user defeats the boss
     pickupGroup.empty()
     gameDisplay.blit(background, (0, 0))
     displayText("YOU BEAT GRAND MASTER", '../fonts/Antonio-Bold.ttf', 150, display_width / 2, display_height / 4, black, 50)
     if player.rect.x >= display_width - characters.char_size:
         player.rect.x = display_width - characters.char_size
 
-# Thsi function is responsible for emptying the pickups, updating merchant
-# dialogue, and displaying the 'YOU WON' text to the screen.
+
 def youWon():
+    # Thsi function is responsible for emptying the pickups, updating merchant
+    # dialogue, and displaying the 'YOU WON' text to the screen.
     pickupGroup.empty()
     player.health = 100
     if player.ammo < 50:
