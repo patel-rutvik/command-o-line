@@ -27,16 +27,23 @@ background = pygame.transform.scale(background, (2000, 1000))
 #K3YbMpE79g&ust=1544235311639470
 arrow = pygame.image.load('../images/arrow.png')
 arrow = pygame.transform.scale(arrow, (150, 100))
-
+# stand image found from
+# https://img1.ibay.com.mv/is1/small/2018/09/item_2338614_601.png
 stand = pygame.image.load('../images/stand.png')
 stand = pygame.transform.scale(stand, (500,500))
-
+# merchant sprite found from
+# https://vignette.wikia.nocookie.net/scribblenauts/
+#images/1/19/Merchant.png/revision/latest?cb=20130210121847
 merchant = pygame.image.load('../images/merchant.png')
 merchant = pygame.transform.scale(merchant, (125, 200))
-
+# bubble sprite found from
+# http://www.pngpix.com/wp-content/uploads/2016/10/PNGPIX-COM-
+#Speech-Bubble-PNG-Transparent-Image-1-1.png
 bubble = pygame.image.load('../images/speech_bubble.png')
 bubble = pygame.transform.scale(bubble, (400, 250))
-
+# heart image found from
+# https://ih0.redbubble.net/image.233692328.2415/raf,750x1000,075,t,
+#fafafa:ca443f4786.u1.jpg
 heart = pygame.image.load('../images/heart.png')
 heart = pygame.transform.scale(heart, (100, 100))
 
@@ -460,3 +467,4 @@ def youWon():
 # light and medium: https://www.google.ca/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwidn5Xk14zfAhV9HjQIHT-BD1cQjRx6BAgBEAU&url
 #    backgrounds    =https%3A%2F%2Fdribbble.com%2Fshots%2F1557487-Side-Scrolling-Game-Background-Desert-River&psig=AOvVaw141QjMKzDHo03uqa
 #                   aRiWPd&ust=1544236479938515
+# city background:  
