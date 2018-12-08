@@ -95,16 +95,20 @@ def playGame():
     temp_play = None
     player.health = 100
     player.ammo = 100
+    
     # 3D list of enemies, including ground enemies and ledge enemies for each level
     enemies = [[[1, 2 ,2 ,3 ,3, 0], [0, 0, 1, 1, 1, 0]], [[1, 3, 3, 3, 4, 0], [0, 0, 1, 2, 2, 0]], [[1, 2, 3, 4, 4, 0], [0, 0, 1, 3, 4, 0]]]
+    
     # the list of image addresses for the backgrounds, check bottom of file for citations.
-    backgrounds = ['../images/light_background.png', '../images/medium_background.png', '../images/city_background.png', '../images/misty_background.jpg', '../images/game_background.jpg', '../images/game_background.jpg']
-    # the list of bool values to indicate whether or not to make a ledge
-    # for that corresponding level
+    backgrounds = ['../images/light_background.png', '../images/medium_background.png', '../images/city_background.png',
+                '../images/misty_background.jpg', '../images/game_background.jpg', '../images/game_background.jpg']
+    
+    # the list of bool values to indicate whether or not to make a ledge for that corresponding level
     ledges = [False, False, True, True, True, False]
     button_size = int((display_width / display_height) * 25)
     pressed = False
     difficulty = [None, None, None]
+
 
     while play:
         if difficulty[0] != None or difficulty[1] != None or difficulty[2] != None:
@@ -204,10 +208,12 @@ def logic(bkgd, playing, level_count):
         pygame.sprite.groupcollide(bulletGroup, ledgeGroup, True, False)
         hitList = pygame.sprite.groupcollide(bulletGroup, enemyGroup, True, False)
 
+        # bullet collisions
         for bull in hitList:
             for enmy in hitList[bull]:
                 enmy.health -= bull.damage
 
+        # enemy shooting
         for enemy in enemyGroup.sprites():
             if enemy.shot == True:
                 enemyBullet = characters.enemyBullet(player.rect.x, player.rect.y, enemy.facing, enemy.rect.x, enemy.rect.y)
@@ -217,13 +223,14 @@ def logic(bkgd, playing, level_count):
             if enemy.alive == False:
                 enemy.remove(enemyGroup)
 
+        # removing bullets from screen
         for bullet in bulletGroup.sprites():
             if bullet.alive == False:
                 bulletGroup.remove(bullet)
-
+        # update player health
         if pygame.sprite.groupcollide(enemyBulletGroup, playerGroup, True, False):
             player.health -= 10
-
+        # boss level
         if level_count == 6:
             boss.add(enemyGroup)
             if boss.health <= 0:
@@ -236,6 +243,7 @@ def logic(bkgd, playing, level_count):
         startString = str('Level ' + str(level_count))
         displayText(startString, '../fonts/Antonio-Bold.ttf', 30, display_width - 75, characters.floor - 70, black, 15)
         gameDisplay.blit(arrow, (display_width - 150, characters.floor - 60))
+
         if level_count == 1:
             merchantDialogue("intro")
 
